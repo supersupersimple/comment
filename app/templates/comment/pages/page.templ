@@ -1,0 +1,11 @@
+package pages
+
+import "github.com/supersupersimple/comment/app/templates/comment/components"
+import "github.com/supersupersimple/comment/app/model"
+
+templ Page(pageVals *model.PageVals, comments []*model.Comment) {
+	@Base(pageVals)
+	@components.ReplyBox(nil, "")
+	<div class="my-8"></div>
+	@components.CommentList(comments)
+}

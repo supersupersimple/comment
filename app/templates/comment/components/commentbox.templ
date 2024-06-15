@@ -1,0 +1,43 @@
+package components
+
+import "github.com/supersupersimple/comment/app/templates/utils"
+import "github.com/supersupersimple/comment/app/model"
+
+func commentBoxID(id string) string {
+	return "comment-" + id
+}
+
+func commentBoxClass(depth int) string {
+	if depth == 0 {
+		return "my-2 border-b-2 border-gray-400"
+	}
+	return "my-2 pl-2 border-l-2 border-gray-200"
+}
+
+templ CommentBox(comment *model.Comment) {
+	<div id={ commentBoxID(comment.ID) } class={ commentBoxClass(comment.Depth) } x-data="{  showReply:  false }">
+		<div class="flex items-center">
+			<div class="my-2 font-bold text-xl mr-8">{ comment.Username }</div>
+			if comment.IsAdmin {
+				<div class="badge badge-outline mx-2">Admin</div>
+			}
+			if  utils.LoggedIn(ctx) && comment.Status == "pending" {
+				<div class="badge badge-accent badge-outline mx-2">{ comment.Status }</div>
+			}
+			<div class="text-gray-500 text-sm">{ comment.PublishTime }</div>
+		</div>
+		<div class="my-2">
+			@templ.Raw(utils.ToHtml(comment.Content))
+		</div>
+		@ReplyBox(comment, "")
+		if comment.LastDepth {
+			@LoadMore("", comment.ID)
+		}
+		if len(comment.Children) > 0 {
+			@CommentList(comment.Children)
+		}
+		if comment.Depth == 0 {
+			<div class="py-2"></div>
+		}
+	</div>
+}

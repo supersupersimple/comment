@@ -1,0 +1,92 @@
+package components
+
+import "github.com/supersupersimple/comment/app/model"
+import "github.com/supersupersimple/comment/app/templates/utils"
+
+func replyBoxID(replyTo string) string {
+	if replyTo == "" {
+		return "reply-box"
+	}
+	return "reply-box-" + replyTo
+}
+
+templ ReplyBox(comment *model.Comment, status model.ReplyStatus) {
+	<div>
+		if comment != nil && comment.ID != "" {
+			<button
+				class="text-sm text-gray-500"
+				type="button"
+				x-on:click="showReply = ! showReply"
+				x-text="showReply ? 'Cancel' : 'Reply'"
+			></button>
+		}
+		if utils.LoggedIn(ctx) && comment != nil && comment.Status == "pending" {
+			<button
+				hx-post={ "/admin/approve/" + comment.ID }
+				hx-swap="outerHTML settle:0"
+				hx-target={ "#" + commentBoxID(comment.ID) }
+				class="pl-2 text-sm text-gray-500"
+				type="button"
+			>Approve</button>
+			<button
+				hx-post={ "/admin/reject/" + comment.ID }
+				hx-swap="outerHTML"
+				hx-target={ "#" + commentBoxID(comment.ID) }
+				class="pl-2 text-sm text-gray-500"
+				type="button"
+			>Reject</button>
+		}
+	</div>
+	if comment == nil || comment.ID == "" {
+		<div id={ replyBoxID("") }>
+			@replyBox("", status)
+		</div>
+	} else {
+		<div class="mt-2 pl-4 border-l-2 border-gray-200" x-show="showReply" id={ replyBoxID(comment.ID) }>
+			@replyBox(comment.ID, status)
+		</div>
+	}
+}
+
+templ replyBox(replyTo string, status model.ReplyStatus) {
+	<div>
+		if status == model.ReplyStatusSuccessful {
+			if utils.LoggedIn(ctx) {
+				<div class="bg-green-600 p-2 text-white rounded">{ "Reply success" }</div>
+			} else {
+				<div class="bg-green-600 p-2 text-white rounded">{ string(status) }</div>
+			}
+		} else if status == "" {
+		} else {
+			<div class="bg-red-600 p-2 text-white rounded">{ string(status) }</div>
+		}
+		<form hx-post="/comment" hx-target={ "#" + replyBoxID(replyTo) } swap="outerHTML">
+			<input type="hidden" name="reply_to" value={ replyTo }/>
+			if !utils.LoggedIn(ctx) {
+				<div class="grid grid-cols-2 gap-4">
+					<label class="form-control w-full">
+						<div class="label">
+							<span class="label-text">Nickname</span>
+						</div>
+						<input name="username" type="text" class="input input-bordered w-full" placeholder="" required/>
+					</label>
+					<label class="form-control w-full">
+						<div class="label">
+							<span class="label-text">Email(optional)</span>
+						</div>
+						<input name="email" type="email" class="input input-bordered w-full" placeholder=""/>
+					</label>
+				</div>
+			}
+			<label class="form-control w-full">
+				<div class="label">
+					<span class="label-text">Reply</span>
+				</div>
+				<textarea name="content" class="textarea textarea-bordered h-24" placeholder="" required></textarea>
+			</label>
+			<div class="py-2">
+				<button class="btn">Comment</button>
+			</div>
+		</form>
+	</div>
+}

@@ -24,11 +24,11 @@ go.work
 node_modules/
 
 # binary file and db file
-comment
-comments.sqlite
+/comment
+/comments.sqlite
 
 # vscode
 .vscode
-tmp/
-tests/rest/
-tests/html/
+/tmp/
+/tests/rest/
+/tests/html/

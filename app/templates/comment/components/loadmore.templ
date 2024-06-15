@@ -1,0 +1,19 @@
+package components
+
+import "github.com/supersupersimple/comment/app/templates/utils"
+
+func loadMoreParams(lastID string, replyTo string) string {
+	return utils.ToHxVals(map[string]any{
+		"last_id":  lastID,
+		"reply_to": replyTo,
+	})
+}
+
+templ LoadMore(lastID string, replyTo string) {
+	<div class="my-4" hx-get="/comments" hx-vals={ loadMoreParams(lastID, replyTo) } hx-swap="outerHTML">
+		<button
+			class="text-sm text-gray-500"
+			type="button"
+		>LoadMore</button>
+	</div>
+}
