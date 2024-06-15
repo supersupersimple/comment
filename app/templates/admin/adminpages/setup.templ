@@ -1,0 +1,42 @@
+package adminpages
+
+import "github.com/supersupersimple/comment/app/model"
+
+templ Setup(pageVals *model.AdminPageVals) {
+	@Base(pageVals)
+	<form action="/admin/setup" method="post" class="mx-auto max-w-lg">
+		<label class="form-control w-full ">
+			<input type="hidden" name="csrf_token" value={ pageVals.CsrfToken }/>
+			<div class="label">
+				<span class="label-text">Name</span>
+			</div>
+			<input name="name" type="text" class="input input-bordered w-full" placeholder="" required/>
+			<div class="label">
+				<span class="label-text">Password</span>
+			</div>
+			<input name="password" type="password" class="input input-bordered w-full" value="" required/>
+			<div class="label">
+				<span class="label-text">Allow Origins (Each line represents a host)</span>
+			</div>
+			<textarea name="allow_origins" class="textarea textarea-bordered h-24" placeholder="" required></textarea>
+			<div class="label">
+				<span class="label-text">Default root comments per batch</span>
+			</div>
+			<select name="limit_per_batch" class="select select-bordered">
+				<option value="5" selected>5</option>
+				<option value="10">10</option>
+				<option value="15">15</option>
+				<option value="20">20</option>
+			</select>
+			<div class="label">
+				<span class="label-text">Default loading comments depth</span>
+			</div>
+			<select name="max_loop_depth" class="select select-bordered">
+				<option value="3" selected>3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<button class="btn mt-4" type="submit" value="Create">Create</button>
+		</label>
+	</form>
+}
