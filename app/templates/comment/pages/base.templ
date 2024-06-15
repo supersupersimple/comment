@@ -1,0 +1,29 @@
+package pages
+
+import (
+	"github.com/supersupersimple/comment/app/model"
+	"github.com/supersupersimple/comment/app/templates/utils"
+)
+
+func baseVals(vals *model.PageVals) string {
+	data := map[string]any{
+		"page_slug":  vals.PageSlug,
+		"csrf_token": vals.CsrfToken,
+	}
+	return utils.ToHxVals(data)
+}
+
+templ Base(vals *model.PageVals) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="UTF-8"/>
+			<link rel="stylesheet" href="/dist/css/comment.css"/>
+			<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+			<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		</head>
+		<body class="mx-8 my-2" hx-vals={ baseVals(vals) }>
+			{ children... }
+		</body>
+	</html>
+}

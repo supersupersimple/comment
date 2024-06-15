@@ -1,0 +1,14 @@
+package components
+
+import (
+	"github.com/supersupersimple/comment/app/model"
+)
+
+templ CommentList(comments []*model.Comment) {
+	for _, comment := range comments {
+		@CommentBox(comment)
+	}
+	if len(comments) >= model.LimitPerBatch {
+		@LoadMore(comments[len(comments)-1].ID, comments[len(comments)-1].ReplyTo)
+	}
+}
