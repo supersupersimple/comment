@@ -1,0 +1,31 @@
+package admincomponents
+
+import "github.com/supersupersimple/comment/app/model"
+
+templ CommentsTable(comments []*model.AdminComment) {
+	<div class="overflow-x-auto">
+		<table class="table">
+			<!-- head -->
+			<thead>
+				<tr>
+					<th>Operation</th>
+					<th>PublishTime</th>
+					<th>Status</th>
+					<th class="w-1/4 xl:w-1/3">Content</th> <!-- added w-1/3 xl:w-1/2 classes to set width -->
+					<th>Username</th>
+					<th>Email</th>
+					<th>PageTitle</th>
+					<th>PageSlug</th>
+					<th>ID</th>
+					<th>Depth</th>
+					<th>ReplyTo</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, comment := range comments {
+					@CommentRow(comment)
+				}
+			</tbody>
+		</table>
+	</div>
+}

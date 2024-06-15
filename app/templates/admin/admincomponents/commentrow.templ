@@ -1,0 +1,38 @@
+package admincomponents
+
+import (
+	"strconv"
+
+	"github.com/supersupersimple/comment/app/model"
+)
+
+templ CommentRow(comment *model.AdminComment) {
+	<tr id={ "comment-row-" + comment.ID }>
+		<td>
+			if comment.Status == "pending" {
+				<button
+					class="btn btn-xs btn-success"
+					hx-post={ "/admin/approve/" + comment.ID }
+					hx-target={ "#comment-row-" + comment.ID }
+					hx-swap="outerHTML"
+				>Approve</button>
+				<button
+					class="btn btn-xs btn-error"
+					hx-post={ "/admin/reject/" + comment.ID }
+					hx-target={ "#comment-row-" + comment.ID }
+					hx-swap="outerHTML"
+				>Reject</button>
+			}
+		</td>
+		<td>{ comment.PublishTime }</td>
+		<td>{ comment.Status }</td>
+		<td>{ comment.Content }</td>
+		<td>{ comment.Username }</td>
+		<td>{ comment.Email }</td>
+		<td>{ comment.PageTitle }</td>
+		<td>{ comment.PageSlug }</td>
+		<td>{ comment.ID }</td>
+		<td>{ strconv.FormatInt(int64(comment.Depth), 10) }</td>
+		<td>{ comment.ReplyTo }</td>
+	</tr>
+}

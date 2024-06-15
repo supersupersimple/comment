@@ -19,3 +19,16 @@
 
 # Go workspace file
 go.work
+
+# node
+node_modules/
+
+# binary file and db file
+comment
+comments.sqlite
+
+# vscode
+.vscode
+tmp/
+tests/rest/
+tests/html/

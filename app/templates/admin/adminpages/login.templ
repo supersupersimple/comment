@@ -1,0 +1,15 @@
+package adminpages
+
+import "github.com/supersupersimple/comment/app/model"
+
+templ Login(pageVals *model.AdminPageVals) {
+	@Base(pageVals)
+	<form action="/admin/login" method="post" class="mx-auto max-w-md">
+		<input type="hidden" name="csrf_token" value={ pageVals.CsrfToken }/>
+		<label class="input input-bordered flex items-center gap-2">
+			<input name="password" type="password" class="grow" value=""/>
+		</label>
+		<br/>
+		<button class="btn" type="submit" value="Login">Login</button>
+	</form>
+}

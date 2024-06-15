@@ -1,0 +1,32 @@
+package adminpages
+
+import (
+	"github.com/supersupersimple/comment/app/templates/utils"
+	"github.com/supersupersimple/comment/app/model"
+)
+
+func baseVals(vals *model.AdminPageVals) string {
+	data := map[string]any{
+		"csrf_token": vals.CsrfToken,
+		"source":     vals.Source,
+	}
+	return utils.ToHxVals(data)
+}
+
+templ Base(vals *model.AdminPageVals) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="UTF-8"/>
+			<link rel="stylesheet" href="/dist/css/admin.css"/>
+			<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+			<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		</head>
+		<body class="m-8" hx-vals={ baseVals(vals) }>
+			if vals.ErrorMsg != "" {
+				<div class="text-red-500">{ vals.ErrorMsg }</div>
+			}
+			{ children... }
+		</body>
+	</html>
+}
