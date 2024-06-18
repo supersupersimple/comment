@@ -3,7 +3,7 @@ function comments() {
     const iframe = document.createElement("iframe");
 
     const host = iframeContainer.dataset.host;
-    const pageUrl = iframeContainer.dataset.pageUrl ? iframeContainer.dataset.pageUrl : "";
+    const pageUrl = iframeContainer.dataset.url ? iframeContainer.dataset.url : "";
     const title = iframeContainer.dataset.title ? iframeContainer.dataset.title : "";
     const pageSlug = iframeContainer.dataset.slug;
     let height = iframeContainer.dataset.height ? iframeContainer.dataset.height : 1000;

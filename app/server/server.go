@@ -55,7 +55,7 @@ func StartWebServer() {
 	private.POST("/admin/approve/:id", api.ApproveComment)
 	private.POST("/admin/reject/:id", api.RejectComment)
 
-	r.Run(":8080")
+	r.Run("localhost:8080")
 }
 
 func initDB() *ent.Client {
