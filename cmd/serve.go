@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"log"
+
 	"github.com/spf13/cobra"
 	"github.com/supersupersimple/comment/app/server"
 )
@@ -10,7 +12,20 @@ var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "start web server",
 	Run: func(cmd *cobra.Command, args []string) {
-		server.StartWebServer()
+		https, err := cmd.Flags().GetBool("https")
+		if err != nil {
+			log.Fatal(err)
+		}
+		host, err := cmd.Flags().GetString("host")
+		if err != nil {
+			log.Fatal(err)
+		}
+		port, err := cmd.Flags().GetInt("port")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		server.StartWebServer(https, host, port)
 	},
 }
 
@@ -18,13 +33,7 @@ func init() {
 	rootCmd.AddCommand(serveCmd)
 
 	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// serveCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// serveCmd.Flags().BoolP("enable_https", "https", true, "enable https and auto tls")
-	// serveCmd.Flags().IntP("port", "p", 8080, "port when use http mode")
+	serveCmd.Flags().BoolP("https", "", true, "enable https and auto tls")
+	serveCmd.Flags().StringP("host", "", "", "host")
+	serveCmd.Flags().IntP("port", "", 8080, "port when use http mode")
 }

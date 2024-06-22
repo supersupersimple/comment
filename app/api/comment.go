@@ -55,7 +55,7 @@ func AddComment(c *gin.Context) {
 	if u.IsAdmin {
 		status = comment.StatusApproved
 	}
-	com, err := client.Comment.Create().
+	_, err = client.Comment.Create().
 		SetContent(req.Content).
 		SetPage(pa).
 		SetUser(u).
@@ -69,7 +69,7 @@ func AddComment(c *gin.Context) {
 		return
 	}
 
-	render.HTML(c, http.StatusCreated, components.ReplyBox(&model.Comment{ID: com.ID.String()}, model.ReplyStatusSuccessful))
+	render.HTML(c, http.StatusCreated, components.ReplyBox(&model.Comment{ID: req.ReplyTo}, model.ReplyStatusSuccessful))
 }
 
 func GetComments(c *gin.Context) {
@@ -152,7 +152,7 @@ func getCommentsTree(c *gin.Context, client *ent.Client, pageID int64, replyToID
 			ID:          reply.ID.String(),
 			Username:    reply.Edges.User.Username,
 			Content:     reply.Content,
-			PublishTime: reply.CreatedAt.Format("2006-01-02 15:04"),
+			PublishTime: ConvertPublishedTime(reply.CreatedAt),
 			Depth:       reply.Depth,
 			Children:    children,
 			LastDepth:   loopDepth == model.MaxLoopDepth,
@@ -224,7 +224,7 @@ func toCommentModel(co *ent.Comment) *model.Comment {
 		ID:          co.ID.String(),
 		Username:    co.Edges.User.Username,
 		Content:     co.Content,
-		PublishTime: co.CreatedAt.Format("2006-01-02 15:04"),
+		PublishTime: ConvertPublishedTime(co.CreatedAt),
 		Depth:       co.Depth,
 		Children:    nil,
 		LastDepth:   false,

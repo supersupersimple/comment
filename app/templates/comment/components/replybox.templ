@@ -10,7 +10,7 @@ func replyBoxID(replyTo string) string {
 	return "reply-box-" + replyTo
 }
 
-templ ReplyBox(comment *model.Comment, status model.ReplyStatus) {
+templ ReplyBtn(comment *model.Comment) {
 	<div>
 		if comment != nil && comment.ID != "" {
 			<button
@@ -37,6 +37,9 @@ templ ReplyBox(comment *model.Comment, status model.ReplyStatus) {
 			>Reject</button>
 		}
 	</div>
+}
+
+templ ReplyBox(comment *model.Comment, status model.ReplyStatus) {
 	if comment == nil || comment.ID == "" {
 		<div id={ replyBoxID("") }>
 			@replyBox("", status)

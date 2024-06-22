@@ -1,9 +1,11 @@
 package adminpages
 
 import "github.com/supersupersimple/comment/app/model"
+import "github.com/supersupersimple/comment/app/templates/admin/admincomponents"
 
 templ Setup(pageVals *model.AdminPageVals) {
 	@Base(pageVals)
+	@admincomponents.Header()
 	<form action="/admin/setup" method="post" class="mx-auto max-w-lg">
 		<label class="form-control w-full ">
 			<input type="hidden" name="csrf_token" value={ pageVals.CsrfToken }/>

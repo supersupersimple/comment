@@ -42,6 +42,10 @@ func Page(pageVals *model.PageVals, comments []*model.Comment) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"text-center my-4 text-sm text-gray-200\"><a href=\"https://github.com/supersupersimple/comment\" target=\"_blank\">Powered by sssComment</a></footer>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		if !templ_7745c5c3_IsBuffer {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
 		}

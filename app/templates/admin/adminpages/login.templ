@@ -1,15 +1,17 @@
 package adminpages
 
 import "github.com/supersupersimple/comment/app/model"
+import "github.com/supersupersimple/comment/app/templates/admin/admincomponents"
 
 templ Login(pageVals *model.AdminPageVals) {
 	@Base(pageVals)
+	@admincomponents.Header()
 	<form action="/admin/login" method="post" class="mx-auto max-w-md">
 		<input type="hidden" name="csrf_token" value={ pageVals.CsrfToken }/>
 		<label class="input input-bordered flex items-center gap-2">
 			<input name="password" type="password" class="grow" value=""/>
 		</label>
 		<br/>
-		<button class="btn" type="submit" value="Login">Login</button>
+		<button class="btn items-center" type="submit" value="Login">Login</button>
 	</form>
 }

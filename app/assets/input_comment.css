@@ -1,5 +1,72 @@
 @config "../../tailwind.comment.config.js";
 
 @tailwind base;
+
+h1,
+h2,
+h3 {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+}
+
+blockquote {
+    @apply bg-gray-100 border-l-4 border-gray-300 p-4 pl-8;
+}
+
+ul {
+    @apply list-disc pl-8;
+}
+
+li {
+    @apply list-item;
+}
+
+ol {
+    @apply list-decimal pl-8;
+}
+
+em {
+    @apply italic;
+}
+
+strong {
+    @apply font-bold;
+}
+
+table {
+    @apply table-fixed w-full;
+}
+
+tr {
+    @apply border border-gray-200;
+}
+
+th {
+    @apply p-2 text-left;
+}
+
+thead {
+    @apply bg-gray-50;
+}
+
+tbody {
+    @apply bg-white;
+}
+
+td {
+    @apply p-2 text-left border border-gray-200;
+}
+
+code {
+    @apply text-sm font-mono bg-gray-100 p-1 rounded;
+}
+
+pre {
+    @apply overflow-auto p-4 bg-gray-50 rounded;
+}
+
+pre code {
+    @apply text-sm font-mono;
+}
+
 @tailwind components;
 @tailwind utilities;

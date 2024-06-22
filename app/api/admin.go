@@ -107,6 +107,7 @@ func RejectComment(c *gin.Context) {
 
 func AdminSetup(c *gin.Context) {
 	if viper.GetBool(config.Setup) {
+		c.AbortWithStatus(http.StatusNotFound)
 		return
 	}
 	if c.Request.Method == http.MethodGet {

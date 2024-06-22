@@ -25,7 +25,7 @@ func CommentsTable(comments []*model.AdminComment) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"overflow-x-auto\"><table class=\"table\"><!-- head --><thead><tr><th>Operation</th><th>PublishTime</th><th>Status</th><th class=\"w-1/4 xl:w-1/3\">Content</th><!-- added w-1/3 xl:w-1/2 classes to set width --><th>Username</th><th>Email</th><th>PageTitle</th><th>PageSlug</th><th>ID</th><th>Depth</th><th>ReplyTo</th></tr></thead> <tbody>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"overflow-x-auto\"><table class=\"table\"><!-- head --><thead><tr><th class=\"w-1/6\">Operation</th><th>PublishTime</th><th>Status</th><th class=\"w-1/4 xl:w-1/3\">Content</th><!-- added w-1/3 xl:w-1/2 classes to set width --><th>Username</th><th>Email</th><th>PageTitle</th><th>PageSlug</th><th>ID</th><th>Depth</th><th>ReplyTo</th></tr></thead> <tbody>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
