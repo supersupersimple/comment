@@ -8,4 +8,5 @@ templ Page(pageVals *model.PageVals, comments []*model.Comment) {
 	@components.ReplyBox(nil, "")
 	<div class="my-8"></div>
 	@components.CommentList(comments)
+	<footer class="text-center my-4 text-sm text-gray-200"><a href="https://github.com/supersupersimple/comment" target="_blank">Powered by sssComment</a></footer>
 }

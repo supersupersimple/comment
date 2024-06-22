@@ -29,6 +29,7 @@ templ CommentBox(comment *model.Comment) {
 		<div class="my-2">
 			@templ.Raw(utils.ToHtml(comment.Content))
 		</div>
+		@ReplyBtn(comment)
 		@ReplyBox(comment, "")
 		if comment.LastDepth {
 			@LoadMore("", comment.ID)

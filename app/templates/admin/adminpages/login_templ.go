@@ -11,6 +11,7 @@ import "io"
 import "bytes"
 
 import "github.com/supersupersimple/comment/app/model"
+import "github.com/supersupersimple/comment/app/templates/admin/admincomponents"
 
 func Login(pageVals *model.AdminPageVals) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
@@ -29,6 +30,10 @@ func Login(pageVals *model.AdminPageVals) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		templ_7745c5c3_Err = admincomponents.Header().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form action=\"/admin/login\" method=\"post\" class=\"mx-auto max-w-md\"><input type=\"hidden\" name=\"csrf_token\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -36,13 +41,13 @@ func Login(pageVals *model.AdminPageVals) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(pageVals.CsrfToken)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `admin/adminpages/login.templ`, Line: 8, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `admin/adminpages/login.templ`, Line: 10, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> <label class=\"input input-bordered flex items-center gap-2\"><input name=\"password\" type=\"password\" class=\"grow\" value=\"\"></label><br><button class=\"btn\" type=\"submit\" value=\"Login\">Login</button></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"> <label class=\"input input-bordered flex items-center gap-2\"><input name=\"password\" type=\"password\" class=\"grow\" value=\"\"></label><br><button class=\"btn items-center\" type=\"submit\" value=\"Login\">Login</button></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
