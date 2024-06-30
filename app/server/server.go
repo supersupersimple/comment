@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -23,10 +24,28 @@ import (
 	"github.com/supersupersimple/comment/app/render"
 	"github.com/supersupersimple/comment/ent"
 	"go.uber.org/ratelimit"
+
 	_ "modernc.org/sqlite"
+	// _ "github.com/mattn/go-sqlite3"
 )
 
 func StartWebServer(https bool, host string, port int) {
+	// Create context that listens for the interrupt signal from the OS.
+	ctx, stop := signal.NotifyContext(
+		context.Background(),
+		syscall.SIGINT,
+		syscall.SIGTERM,
+	)
+	defer stop()
+
+	if os.Getenv(EnvLitestreamUrl) != "" {
+		lsdb, err := replicate(ctx, "data/comments.sqlite")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer lsdb.SoftClose(ctx)
+	}
+
 	client := initDB()
 	defer client.Close()
 
@@ -61,13 +80,6 @@ func StartWebServer(https bool, host string, port int) {
 	private.POST("/admin/approve/:id", api.ApproveComment)
 	private.POST("/admin/reject/:id", api.RejectComment)
 
-	// Create context that listens for the interrupt signal from the OS.
-	ctx, stop := signal.NotifyContext(
-		context.Background(),
-		syscall.SIGINT,
-		syscall.SIGTERM,
-	)
-	defer stop()
 	if https {
 		autotls.RunWithContext(ctx, r, host)
 	} else {
@@ -106,8 +118,8 @@ func runWithCtx(ctx context.Context, r *gin.Engine, addr string, stop context.Ca
 }
 
 func initDB() *ent.Client {
-	db, err := sql.Open("sqlite", "file:data/comments.sqlite?cache=shared&_pragma=foreign_keys(1)")
-	// db, err := sql.Open("sqlite3", "file:data/comments.sqlite?cache=shared&_fk=1")
+	db, err := sql.Open("sqlite", "file:data/comments.sqlite?_pragma=foreign_keys(1)")
+	// db, err := sql.Open("sqlite3", "file:data/comments.sqlite?_fk=1")
 	if err != nil {
 		log.Fatalf("failed opening connection to sqlite: %v", err)
 	}
