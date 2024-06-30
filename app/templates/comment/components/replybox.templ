@@ -16,7 +16,10 @@ templ ReplyBtn(comment *model.Comment) {
 			<button
 				class="text-sm text-gray-500"
 				type="button"
-				x-on:click="showReply = ! showReply"
+				x-on:click="
+					showReply = ! showReply;
+					$nextTick(() => { updateHeight() });
+				"
 				x-text="showReply ? 'Cancel' : 'Reply'"
 			></button>
 		}

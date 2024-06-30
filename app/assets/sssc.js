@@ -17,6 +17,7 @@ function comments() {
 
     window.addEventListener('message', function (event) {
         if (event.data.event == 'resize') {
+            // console.log("receive updateHeight", event.data.offsetHeight);
             iframe.height = event.data.offsetHeight + "px";
         }
     });
