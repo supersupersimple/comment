@@ -25,8 +25,11 @@ node_modules/
 
 # binary file and db file and FE dist files
 /comment
-/data/comments.sqlite
-/app/assets/dist/*
+/data/comments.sqlite*
+/data/.comments.sqlite-*
+
+/app/assets/dist/css/*.css
+/app/assets/dist/js/*.js
 
 # vscode
 .vscode
