@@ -8,7 +8,7 @@ function comments() {
     const pageSlug = iframeContainer.dataset.slug;
 
     // Set the iframe src
-    iframe.src = `${host}/comments?page_url=${pageUrl}&page_slug=${pageSlug}&title=${title}`;
+    iframe.src = `${host}/comments?page_url=${pageUrl}&page_slug=${pageSlug}&page_title=${title}`;
     iframe.width = "90%";
     iframe.style.border = "none";
     iframe.style.borderRadius = "10px";
