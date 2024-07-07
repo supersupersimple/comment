@@ -13,9 +13,11 @@ type RespGetComments struct {
 }
 
 type ReqAddComment struct {
-	PageSlug string `json:"page_slug" form:"page_slug" binding:"required"`
-	Content  string `json:"content" form:"content" binding:"required"`
-	ReplyTo  string `json:"reply_to" form:"reply_to"`
-	Username string `json:"username" form:"username"`
-	Email    string `json:"email" form:"email"`
+	PageSlug  string `json:"page_slug" form:"page_slug" binding:"required"`
+	PageUrl   string `json:"page_url" form:"page_url"`
+	PageTitle string `json:"page_title" form:"page_title"`
+	Content   string `json:"content" form:"content" binding:"required"`
+	ReplyTo   string `json:"reply_to" form:"reply_to"`
+	Username  string `json:"username" form:"username"`
+	Email     string `json:"email" form:"email"`
 }

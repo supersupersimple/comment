@@ -29,7 +29,7 @@ func AddComment(c *gin.Context) {
 	}
 
 	client := ctxutil.DB(c)
-	pa, err := getPage(c, req.PageSlug, "", "")
+	pa, err := getPage(c, req.PageSlug, req.PageUrl, req.PageTitle)
 	if err != nil {
 		errorReplyBox(c, req.ReplyTo, model.ReplyStatusFailed)
 		return
