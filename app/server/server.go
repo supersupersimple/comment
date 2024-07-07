@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"os/signal"
@@ -72,6 +73,8 @@ func StartWebServer(https bool, host string, port int) {
 	public := r.Use(middleware.Auth(false))
 	public.GET("/comments", api.GetComments)
 	public.POST("/comment", api.AddComment, middleware.LeakBucket(limiter))
+	public.GET("/comment/approve/:token", api.AnonymousApprove)
+	public.GET("/comment/reject/:token", api.AnonymousReject)
 
 	public.GET("/admin/login", api.AdminLogin)
 	public.POST("/admin/login", api.AdminLogin)
@@ -105,7 +108,7 @@ func runWithCtx(ctx context.Context, r *gin.Engine, addr string, stop context.Ca
 
 	// Restore default behavior on the interrupt signal and notify user of shutdown.
 	stop()
-	log.Println("shutting down gracefully, press Ctrl+C again to force")
+	slog.Info("shutting down gracefully, press Ctrl+C again to force")
 
 	// The context is used to inform the server it has 5 seconds to finish
 	// the request it is currently handling
@@ -114,7 +117,7 @@ func runWithCtx(ctx context.Context, r *gin.Engine, addr string, stop context.Ca
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Fatal("Server forced to shutdown: ", err)
 	}
-	log.Println("Server exiting")
+	slog.Info("Server exiting")
 }
 
 func initDB() *ent.Client {

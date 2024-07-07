@@ -85,6 +85,20 @@ func (cc *CommentCreate) SetNillableDepth(i *int) *CommentCreate {
 	return cc
 }
 
+// SetApproveToken sets the "approve_token" field.
+func (cc *CommentCreate) SetApproveToken(s string) *CommentCreate {
+	cc.mutation.SetApproveToken(s)
+	return cc
+}
+
+// SetNillableApproveToken sets the "approve_token" field if the given value is not nil.
+func (cc *CommentCreate) SetNillableApproveToken(s *string) *CommentCreate {
+	if s != nil {
+		cc.SetApproveToken(*s)
+	}
+	return cc
+}
+
 // SetPageID sets the "page_id" field.
 func (cc *CommentCreate) SetPageID(i int64) *CommentCreate {
 	cc.mutation.SetPageID(i)
@@ -206,6 +220,10 @@ func (cc *CommentCreate) defaults() {
 		v := comment.DefaultDepth
 		cc.mutation.SetDepth(v)
 	}
+	if _, ok := cc.mutation.ApproveToken(); !ok {
+		v := comment.DefaultApproveToken()
+		cc.mutation.SetApproveToken(v)
+	}
 	if _, ok := cc.mutation.ID(); !ok {
 		v := comment.DefaultID()
 		cc.mutation.SetID(v)
@@ -300,6 +318,10 @@ func (cc *CommentCreate) createSpec() (*Comment, *sqlgraph.CreateSpec) {
 	if value, ok := cc.mutation.Depth(); ok {
 		_spec.SetField(comment.FieldDepth, field.TypeInt, value)
 		_node.Depth = value
+	}
+	if value, ok := cc.mutation.ApproveToken(); ok {
+		_spec.SetField(comment.FieldApproveToken, field.TypeString, value)
+		_node.ApproveToken = value
 	}
 	if nodes := cc.mutation.PageIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

@@ -72,6 +72,16 @@ func MaxLoopDepth(v int) predicate.Conf {
 	return predicate.Conf(sql.FieldEQ(FieldMaxLoopDepth, v))
 }
 
+// Host applies equality check predicate on the "host" field. It's identical to HostEQ.
+func Host(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldEQ(FieldHost, v))
+}
+
+// TgBotURL applies equality check predicate on the "tg_bot_url" field. It's identical to TgBotURLEQ.
+func TgBotURL(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldEQ(FieldTgBotURL, v))
+}
+
 // PasswordEQ applies the EQ predicate on the "password" field.
 func PasswordEQ(v string) predicate.Conf {
 	return predicate.Conf(sql.FieldEQ(FieldPassword, v))
@@ -280,6 +290,136 @@ func MaxLoopDepthLT(v int) predicate.Conf {
 // MaxLoopDepthLTE applies the LTE predicate on the "max_loop_depth" field.
 func MaxLoopDepthLTE(v int) predicate.Conf {
 	return predicate.Conf(sql.FieldLTE(FieldMaxLoopDepth, v))
+}
+
+// HostEQ applies the EQ predicate on the "host" field.
+func HostEQ(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldEQ(FieldHost, v))
+}
+
+// HostNEQ applies the NEQ predicate on the "host" field.
+func HostNEQ(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldNEQ(FieldHost, v))
+}
+
+// HostIn applies the In predicate on the "host" field.
+func HostIn(vs ...string) predicate.Conf {
+	return predicate.Conf(sql.FieldIn(FieldHost, vs...))
+}
+
+// HostNotIn applies the NotIn predicate on the "host" field.
+func HostNotIn(vs ...string) predicate.Conf {
+	return predicate.Conf(sql.FieldNotIn(FieldHost, vs...))
+}
+
+// HostGT applies the GT predicate on the "host" field.
+func HostGT(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldGT(FieldHost, v))
+}
+
+// HostGTE applies the GTE predicate on the "host" field.
+func HostGTE(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldGTE(FieldHost, v))
+}
+
+// HostLT applies the LT predicate on the "host" field.
+func HostLT(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldLT(FieldHost, v))
+}
+
+// HostLTE applies the LTE predicate on the "host" field.
+func HostLTE(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldLTE(FieldHost, v))
+}
+
+// HostContains applies the Contains predicate on the "host" field.
+func HostContains(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldContains(FieldHost, v))
+}
+
+// HostHasPrefix applies the HasPrefix predicate on the "host" field.
+func HostHasPrefix(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldHasPrefix(FieldHost, v))
+}
+
+// HostHasSuffix applies the HasSuffix predicate on the "host" field.
+func HostHasSuffix(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldHasSuffix(FieldHost, v))
+}
+
+// HostEqualFold applies the EqualFold predicate on the "host" field.
+func HostEqualFold(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldEqualFold(FieldHost, v))
+}
+
+// HostContainsFold applies the ContainsFold predicate on the "host" field.
+func HostContainsFold(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldContainsFold(FieldHost, v))
+}
+
+// TgBotURLEQ applies the EQ predicate on the "tg_bot_url" field.
+func TgBotURLEQ(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldEQ(FieldTgBotURL, v))
+}
+
+// TgBotURLNEQ applies the NEQ predicate on the "tg_bot_url" field.
+func TgBotURLNEQ(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldNEQ(FieldTgBotURL, v))
+}
+
+// TgBotURLIn applies the In predicate on the "tg_bot_url" field.
+func TgBotURLIn(vs ...string) predicate.Conf {
+	return predicate.Conf(sql.FieldIn(FieldTgBotURL, vs...))
+}
+
+// TgBotURLNotIn applies the NotIn predicate on the "tg_bot_url" field.
+func TgBotURLNotIn(vs ...string) predicate.Conf {
+	return predicate.Conf(sql.FieldNotIn(FieldTgBotURL, vs...))
+}
+
+// TgBotURLGT applies the GT predicate on the "tg_bot_url" field.
+func TgBotURLGT(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldGT(FieldTgBotURL, v))
+}
+
+// TgBotURLGTE applies the GTE predicate on the "tg_bot_url" field.
+func TgBotURLGTE(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldGTE(FieldTgBotURL, v))
+}
+
+// TgBotURLLT applies the LT predicate on the "tg_bot_url" field.
+func TgBotURLLT(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldLT(FieldTgBotURL, v))
+}
+
+// TgBotURLLTE applies the LTE predicate on the "tg_bot_url" field.
+func TgBotURLLTE(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldLTE(FieldTgBotURL, v))
+}
+
+// TgBotURLContains applies the Contains predicate on the "tg_bot_url" field.
+func TgBotURLContains(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldContains(FieldTgBotURL, v))
+}
+
+// TgBotURLHasPrefix applies the HasPrefix predicate on the "tg_bot_url" field.
+func TgBotURLHasPrefix(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldHasPrefix(FieldTgBotURL, v))
+}
+
+// TgBotURLHasSuffix applies the HasSuffix predicate on the "tg_bot_url" field.
+func TgBotURLHasSuffix(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldHasSuffix(FieldTgBotURL, v))
+}
+
+// TgBotURLEqualFold applies the EqualFold predicate on the "tg_bot_url" field.
+func TgBotURLEqualFold(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldEqualFold(FieldTgBotURL, v))
+}
+
+// TgBotURLContainsFold applies the ContainsFold predicate on the "tg_bot_url" field.
+func TgBotURLContainsFold(v string) predicate.Conf {
+	return predicate.Conf(sql.FieldContainsFold(FieldTgBotURL, v))
 }
 
 // And groups predicates with the AND operator between them.

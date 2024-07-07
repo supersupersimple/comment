@@ -30,6 +30,8 @@ type Comment struct {
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 	// Depth holds the value of the "depth" field.
 	Depth int `json:"depth,omitempty"`
+	// ApproveToken holds the value of the "approve_token" field.
+	ApproveToken string `json:"approve_token,omitempty"`
 	// PageID holds the value of the "page_id" field.
 	PageID int64 `json:"page_id,omitempty"`
 	// UserID holds the value of the "user_id" field.
@@ -108,7 +110,7 @@ func (*Comment) scanValues(columns []string) ([]any, error) {
 			values[i] = &sql.NullScanner{S: new(xid.ID)}
 		case comment.FieldDepth, comment.FieldPageID, comment.FieldUserID:
 			values[i] = new(sql.NullInt64)
-		case comment.FieldContent, comment.FieldStatus:
+		case comment.FieldContent, comment.FieldStatus, comment.FieldApproveToken:
 			values[i] = new(sql.NullString)
 		case comment.FieldCreatedAt, comment.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -164,6 +166,12 @@ func (c *Comment) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field depth", values[i])
 			} else if value.Valid {
 				c.Depth = int(value.Int64)
+			}
+		case comment.FieldApproveToken:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field approve_token", values[i])
+			} else if value.Valid {
+				c.ApproveToken = value.String
 			}
 		case comment.FieldPageID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -254,6 +262,9 @@ func (c *Comment) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("depth=")
 	builder.WriteString(fmt.Sprintf("%v", c.Depth))
+	builder.WriteString(", ")
+	builder.WriteString("approve_token=")
+	builder.WriteString(c.ApproveToken)
 	builder.WriteString(", ")
 	builder.WriteString("page_id=")
 	builder.WriteString(fmt.Sprintf("%v", c.PageID))

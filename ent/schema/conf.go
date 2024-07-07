@@ -18,6 +18,8 @@ func (Conf) Fields() []ent.Field {
 		field.String("cookie_secret"),
 		field.Int("limit_per_batch").Default(5),
 		field.Int("max_loop_depth").Default(3),
+		field.String("host").Default("http://localhost:8080"),
+		field.String("tg_bot_url").Default(""),
 	}
 }
 

@@ -26,6 +26,8 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// FieldDepth holds the string denoting the depth field in the database.
 	FieldDepth = "depth"
+	// FieldApproveToken holds the string denoting the approve_token field in the database.
+	FieldApproveToken = "approve_token"
 	// FieldPageID holds the string denoting the page_id field in the database.
 	FieldPageID = "page_id"
 	// FieldUserID holds the string denoting the user_id field in the database.
@@ -74,6 +76,7 @@ var Columns = []string{
 	FieldCreatedAt,
 	FieldUpdatedAt,
 	FieldDepth,
+	FieldApproveToken,
 	FieldPageID,
 	FieldUserID,
 	FieldReplyToID,
@@ -98,6 +101,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultDepth holds the default value on creation for the "depth" field.
 	DefaultDepth int
+	// DefaultApproveToken holds the default value on creation for the "approve_token" field.
+	DefaultApproveToken func() string
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() xid.ID
 )
@@ -161,6 +166,11 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByDepth orders the results by the depth field.
 func ByDepth(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDepth, opts...).ToFunc()
+}
+
+// ByApproveToken orders the results by the approve_token field.
+func ByApproveToken(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldApproveToken, opts...).ToFunc()
 }
 
 // ByPageID orders the results by the page_id field.

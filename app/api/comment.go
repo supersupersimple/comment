@@ -55,7 +55,7 @@ func AddComment(c *gin.Context) {
 	if u.IsAdmin {
 		status = comment.StatusApproved
 	}
-	_, err = client.Comment.Create().
+	com, err := client.Comment.Create().
 		SetContent(req.Content).
 		SetPage(pa).
 		SetUser(u).
@@ -67,6 +67,10 @@ func AddComment(c *gin.Context) {
 	if err != nil {
 		errorReplyBox(c, req.ReplyTo, model.ReplyStatusFailed)
 		return
+	}
+
+	if !u.IsAdmin {
+		go SendTgNoti(c, com)
 	}
 
 	render.HTML(c, http.StatusCreated, components.ReplyBox(&model.Comment{ID: req.ReplyTo}, model.ReplyStatusSuccessful))

@@ -1,0 +1,10 @@
+package admincomponents
+
+templ TgNotiBox(title string, username string, content string) {
+	A new comment wait to approve in page <strong>{ title }</strong>
+	@templ.Raw("\n")
+	<strong>{ username }</strong>:
+	<blockquote>
+		{ content }
+	</blockquote>
+}

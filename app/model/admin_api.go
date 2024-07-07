@@ -29,11 +29,13 @@ type ReqAdminLogin struct {
 }
 
 type ReqAdminSetup struct {
+	Host          string `form:"host"`
 	Name          string `form:"name" binding:"required,min=1"`     // name length must be longer than 1
 	Password      string `form:"password" binding:"required,min=8"` // password length must be longer than 8
 	AllowOrigins  string `form:"allow_origins" binding:"required"`
 	LimitPerBatch int    `form:"limit_per_batch" binding:"required,gte=5,lte=20"`
 	MaxLoopDepth  int    `form:"max_loop_depth" binding:"required,gte=3,lte=5"`
+	TgBotUrl      string `form:""tg_bot_url`
 }
 
 type AdminComment struct {

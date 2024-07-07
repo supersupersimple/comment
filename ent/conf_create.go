@@ -65,6 +65,34 @@ func (cc *ConfCreate) SetNillableMaxLoopDepth(i *int) *ConfCreate {
 	return cc
 }
 
+// SetHost sets the "host" field.
+func (cc *ConfCreate) SetHost(s string) *ConfCreate {
+	cc.mutation.SetHost(s)
+	return cc
+}
+
+// SetNillableHost sets the "host" field if the given value is not nil.
+func (cc *ConfCreate) SetNillableHost(s *string) *ConfCreate {
+	if s != nil {
+		cc.SetHost(*s)
+	}
+	return cc
+}
+
+// SetTgBotURL sets the "tg_bot_url" field.
+func (cc *ConfCreate) SetTgBotURL(s string) *ConfCreate {
+	cc.mutation.SetTgBotURL(s)
+	return cc
+}
+
+// SetNillableTgBotURL sets the "tg_bot_url" field if the given value is not nil.
+func (cc *ConfCreate) SetNillableTgBotURL(s *string) *ConfCreate {
+	if s != nil {
+		cc.SetTgBotURL(*s)
+	}
+	return cc
+}
+
 // Mutation returns the ConfMutation object of the builder.
 func (cc *ConfCreate) Mutation() *ConfMutation {
 	return cc.mutation
@@ -108,6 +136,14 @@ func (cc *ConfCreate) defaults() {
 		v := conf.DefaultMaxLoopDepth
 		cc.mutation.SetMaxLoopDepth(v)
 	}
+	if _, ok := cc.mutation.Host(); !ok {
+		v := conf.DefaultHost
+		cc.mutation.SetHost(v)
+	}
+	if _, ok := cc.mutation.TgBotURL(); !ok {
+		v := conf.DefaultTgBotURL
+		cc.mutation.SetTgBotURL(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -126,6 +162,12 @@ func (cc *ConfCreate) check() error {
 	}
 	if _, ok := cc.mutation.MaxLoopDepth(); !ok {
 		return &ValidationError{Name: "max_loop_depth", err: errors.New(`ent: missing required field "Conf.max_loop_depth"`)}
+	}
+	if _, ok := cc.mutation.Host(); !ok {
+		return &ValidationError{Name: "host", err: errors.New(`ent: missing required field "Conf.host"`)}
+	}
+	if _, ok := cc.mutation.TgBotURL(); !ok {
+		return &ValidationError{Name: "tg_bot_url", err: errors.New(`ent: missing required field "Conf.tg_bot_url"`)}
 	}
 	return nil
 }
@@ -172,6 +214,14 @@ func (cc *ConfCreate) createSpec() (*Conf, *sqlgraph.CreateSpec) {
 	if value, ok := cc.mutation.MaxLoopDepth(); ok {
 		_spec.SetField(conf.FieldMaxLoopDepth, field.TypeInt, value)
 		_node.MaxLoopDepth = value
+	}
+	if value, ok := cc.mutation.Host(); ok {
+		_spec.SetField(conf.FieldHost, field.TypeString, value)
+		_node.Host = value
+	}
+	if value, ok := cc.mutation.TgBotURL(); ok {
+		_spec.SetField(conf.FieldTgBotURL, field.TypeString, value)
+		_node.TgBotURL = value
 	}
 	return _node, _spec
 }
