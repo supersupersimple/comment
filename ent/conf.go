@@ -27,6 +27,10 @@ type Conf struct {
 	LimitPerBatch int `json:"limit_per_batch,omitempty"`
 	// MaxLoopDepth holds the value of the "max_loop_depth" field.
 	MaxLoopDepth int `json:"max_loop_depth,omitempty"`
+	// Host holds the value of the "host" field.
+	Host string `json:"host,omitempty"`
+	// TgBotURL holds the value of the "tg_bot_url" field.
+	TgBotURL     string `json:"tg_bot_url,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -39,7 +43,7 @@ func (*Conf) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case conf.FieldID, conf.FieldLimitPerBatch, conf.FieldMaxLoopDepth:
 			values[i] = new(sql.NullInt64)
-		case conf.FieldPassword, conf.FieldCookieSecret:
+		case conf.FieldPassword, conf.FieldCookieSecret, conf.FieldHost, conf.FieldTgBotURL:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -94,6 +98,18 @@ func (c *Conf) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				c.MaxLoopDepth = int(value.Int64)
 			}
+		case conf.FieldHost:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field host", values[i])
+			} else if value.Valid {
+				c.Host = value.String
+			}
+		case conf.FieldTgBotURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field tg_bot_url", values[i])
+			} else if value.Valid {
+				c.TgBotURL = value.String
+			}
 		default:
 			c.selectValues.Set(columns[i], values[i])
 		}
@@ -143,6 +159,12 @@ func (c *Conf) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("max_loop_depth=")
 	builder.WriteString(fmt.Sprintf("%v", c.MaxLoopDepth))
+	builder.WriteString(", ")
+	builder.WriteString("host=")
+	builder.WriteString(c.Host)
+	builder.WriteString(", ")
+	builder.WriteString("tg_bot_url=")
+	builder.WriteString(c.TgBotURL)
 	builder.WriteByte(')')
 	return builder.String()
 }

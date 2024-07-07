@@ -21,6 +21,10 @@ const (
 	FieldLimitPerBatch = "limit_per_batch"
 	// FieldMaxLoopDepth holds the string denoting the max_loop_depth field in the database.
 	FieldMaxLoopDepth = "max_loop_depth"
+	// FieldHost holds the string denoting the host field in the database.
+	FieldHost = "host"
+	// FieldTgBotURL holds the string denoting the tg_bot_url field in the database.
+	FieldTgBotURL = "tg_bot_url"
 	// Table holds the table name of the conf in the database.
 	Table = "confs"
 )
@@ -33,6 +37,8 @@ var Columns = []string{
 	FieldCookieSecret,
 	FieldLimitPerBatch,
 	FieldMaxLoopDepth,
+	FieldHost,
+	FieldTgBotURL,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -50,6 +56,10 @@ var (
 	DefaultLimitPerBatch int
 	// DefaultMaxLoopDepth holds the default value on creation for the "max_loop_depth" field.
 	DefaultMaxLoopDepth int
+	// DefaultHost holds the default value on creation for the "host" field.
+	DefaultHost string
+	// DefaultTgBotURL holds the default value on creation for the "tg_bot_url" field.
+	DefaultTgBotURL string
 )
 
 // OrderOption defines the ordering options for the Conf queries.
@@ -78,4 +88,14 @@ func ByLimitPerBatch(opts ...sql.OrderTermOption) OrderOption {
 // ByMaxLoopDepth orders the results by the max_loop_depth field.
 func ByMaxLoopDepth(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldMaxLoopDepth, opts...).ToFunc()
+}
+
+// ByHost orders the results by the host field.
+func ByHost(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldHost, opts...).ToFunc()
+}
+
+// ByTgBotURL orders the results by the tg_bot_url field.
+func ByTgBotURL(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTgBotURL, opts...).ToFunc()
 }

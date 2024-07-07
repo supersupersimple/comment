@@ -46,6 +46,7 @@ type CommentMutation struct {
 	updated_at      *time.Time
 	depth           *int
 	adddepth        *int
+	approve_token   *string
 	clearedFields   map[string]struct{}
 	page            *int64
 	clearedpage     bool
@@ -365,6 +366,55 @@ func (m *CommentMutation) ResetDepth() {
 	m.adddepth = nil
 }
 
+// SetApproveToken sets the "approve_token" field.
+func (m *CommentMutation) SetApproveToken(s string) {
+	m.approve_token = &s
+}
+
+// ApproveToken returns the value of the "approve_token" field in the mutation.
+func (m *CommentMutation) ApproveToken() (r string, exists bool) {
+	v := m.approve_token
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApproveToken returns the old "approve_token" field's value of the Comment entity.
+// If the Comment object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CommentMutation) OldApproveToken(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApproveToken is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApproveToken requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApproveToken: %w", err)
+	}
+	return oldValue.ApproveToken, nil
+}
+
+// ClearApproveToken clears the value of the "approve_token" field.
+func (m *CommentMutation) ClearApproveToken() {
+	m.approve_token = nil
+	m.clearedFields[comment.FieldApproveToken] = struct{}{}
+}
+
+// ApproveTokenCleared returns if the "approve_token" field was cleared in this mutation.
+func (m *CommentMutation) ApproveTokenCleared() bool {
+	_, ok := m.clearedFields[comment.FieldApproveToken]
+	return ok
+}
+
+// ResetApproveToken resets all changes to the "approve_token" field.
+func (m *CommentMutation) ResetApproveToken() {
+	m.approve_token = nil
+	delete(m.clearedFields, comment.FieldApproveToken)
+}
+
 // SetPageID sets the "page_id" field.
 func (m *CommentMutation) SetPageID(i int64) {
 	m.page = &i
@@ -655,7 +705,7 @@ func (m *CommentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CommentMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.content != nil {
 		fields = append(fields, comment.FieldContent)
 	}
@@ -670,6 +720,9 @@ func (m *CommentMutation) Fields() []string {
 	}
 	if m.depth != nil {
 		fields = append(fields, comment.FieldDepth)
+	}
+	if m.approve_token != nil {
+		fields = append(fields, comment.FieldApproveToken)
 	}
 	if m.page != nil {
 		fields = append(fields, comment.FieldPageID)
@@ -698,6 +751,8 @@ func (m *CommentMutation) Field(name string) (ent.Value, bool) {
 		return m.UpdatedAt()
 	case comment.FieldDepth:
 		return m.Depth()
+	case comment.FieldApproveToken:
+		return m.ApproveToken()
 	case comment.FieldPageID:
 		return m.PageID()
 	case comment.FieldUserID:
@@ -723,6 +778,8 @@ func (m *CommentMutation) OldField(ctx context.Context, name string) (ent.Value,
 		return m.OldUpdatedAt(ctx)
 	case comment.FieldDepth:
 		return m.OldDepth(ctx)
+	case comment.FieldApproveToken:
+		return m.OldApproveToken(ctx)
 	case comment.FieldPageID:
 		return m.OldPageID(ctx)
 	case comment.FieldUserID:
@@ -772,6 +829,13 @@ func (m *CommentMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDepth(v)
+		return nil
+	case comment.FieldApproveToken:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApproveToken(v)
 		return nil
 	case comment.FieldPageID:
 		v, ok := value.(int64)
@@ -839,6 +903,9 @@ func (m *CommentMutation) AddField(name string, value ent.Value) error {
 // mutation.
 func (m *CommentMutation) ClearedFields() []string {
 	var fields []string
+	if m.FieldCleared(comment.FieldApproveToken) {
+		fields = append(fields, comment.FieldApproveToken)
+	}
 	if m.FieldCleared(comment.FieldReplyToID) {
 		fields = append(fields, comment.FieldReplyToID)
 	}
@@ -856,6 +923,9 @@ func (m *CommentMutation) FieldCleared(name string) bool {
 // error if the field is not defined in the schema.
 func (m *CommentMutation) ClearField(name string) error {
 	switch name {
+	case comment.FieldApproveToken:
+		m.ClearApproveToken()
+		return nil
 	case comment.FieldReplyToID:
 		m.ClearReplyToID()
 		return nil
@@ -881,6 +951,9 @@ func (m *CommentMutation) ResetField(name string) error {
 		return nil
 	case comment.FieldDepth:
 		m.ResetDepth()
+		return nil
+	case comment.FieldApproveToken:
+		m.ResetApproveToken()
 		return nil
 	case comment.FieldPageID:
 		m.ResetPageID()
@@ -1047,6 +1120,8 @@ type ConfMutation struct {
 	addlimit_per_batch  *int
 	max_loop_depth      *int
 	addmax_loop_depth   *int
+	host                *string
+	tg_bot_url          *string
 	clearedFields       map[string]struct{}
 	done                bool
 	oldValue            func(context.Context) (*Conf, error)
@@ -1386,6 +1461,78 @@ func (m *ConfMutation) ResetMaxLoopDepth() {
 	m.addmax_loop_depth = nil
 }
 
+// SetHost sets the "host" field.
+func (m *ConfMutation) SetHost(s string) {
+	m.host = &s
+}
+
+// Host returns the value of the "host" field in the mutation.
+func (m *ConfMutation) Host() (r string, exists bool) {
+	v := m.host
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldHost returns the old "host" field's value of the Conf entity.
+// If the Conf object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ConfMutation) OldHost(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldHost is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldHost requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldHost: %w", err)
+	}
+	return oldValue.Host, nil
+}
+
+// ResetHost resets all changes to the "host" field.
+func (m *ConfMutation) ResetHost() {
+	m.host = nil
+}
+
+// SetTgBotURL sets the "tg_bot_url" field.
+func (m *ConfMutation) SetTgBotURL(s string) {
+	m.tg_bot_url = &s
+}
+
+// TgBotURL returns the value of the "tg_bot_url" field in the mutation.
+func (m *ConfMutation) TgBotURL() (r string, exists bool) {
+	v := m.tg_bot_url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTgBotURL returns the old "tg_bot_url" field's value of the Conf entity.
+// If the Conf object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ConfMutation) OldTgBotURL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTgBotURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTgBotURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTgBotURL: %w", err)
+	}
+	return oldValue.TgBotURL, nil
+}
+
+// ResetTgBotURL resets all changes to the "tg_bot_url" field.
+func (m *ConfMutation) ResetTgBotURL() {
+	m.tg_bot_url = nil
+}
+
 // Where appends a list predicates to the ConfMutation builder.
 func (m *ConfMutation) Where(ps ...predicate.Conf) {
 	m.predicates = append(m.predicates, ps...)
@@ -1420,7 +1567,7 @@ func (m *ConfMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ConfMutation) Fields() []string {
-	fields := make([]string, 0, 5)
+	fields := make([]string, 0, 7)
 	if m.password != nil {
 		fields = append(fields, conf.FieldPassword)
 	}
@@ -1435,6 +1582,12 @@ func (m *ConfMutation) Fields() []string {
 	}
 	if m.max_loop_depth != nil {
 		fields = append(fields, conf.FieldMaxLoopDepth)
+	}
+	if m.host != nil {
+		fields = append(fields, conf.FieldHost)
+	}
+	if m.tg_bot_url != nil {
+		fields = append(fields, conf.FieldTgBotURL)
 	}
 	return fields
 }
@@ -1454,6 +1607,10 @@ func (m *ConfMutation) Field(name string) (ent.Value, bool) {
 		return m.LimitPerBatch()
 	case conf.FieldMaxLoopDepth:
 		return m.MaxLoopDepth()
+	case conf.FieldHost:
+		return m.Host()
+	case conf.FieldTgBotURL:
+		return m.TgBotURL()
 	}
 	return nil, false
 }
@@ -1473,6 +1630,10 @@ func (m *ConfMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldLimitPerBatch(ctx)
 	case conf.FieldMaxLoopDepth:
 		return m.OldMaxLoopDepth(ctx)
+	case conf.FieldHost:
+		return m.OldHost(ctx)
+	case conf.FieldTgBotURL:
+		return m.OldTgBotURL(ctx)
 	}
 	return nil, fmt.Errorf("unknown Conf field %s", name)
 }
@@ -1516,6 +1677,20 @@ func (m *ConfMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMaxLoopDepth(v)
+		return nil
+	case conf.FieldHost:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetHost(v)
+		return nil
+	case conf.FieldTgBotURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTgBotURL(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Conf field %s", name)
@@ -1607,6 +1782,12 @@ func (m *ConfMutation) ResetField(name string) error {
 		return nil
 	case conf.FieldMaxLoopDepth:
 		m.ResetMaxLoopDepth()
+		return nil
+	case conf.FieldHost:
+		m.ResetHost()
+		return nil
+	case conf.FieldTgBotURL:
+		m.ResetTgBotURL()
 		return nil
 	}
 	return fmt.Errorf("unknown Conf field %s", name)

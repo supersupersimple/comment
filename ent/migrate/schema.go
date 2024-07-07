@@ -16,6 +16,7 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "depth", Type: field.TypeInt, Default: 0},
+		{Name: "approve_token", Type: field.TypeString, Nullable: true},
 		{Name: "reply_to_id", Type: field.TypeString, Nullable: true},
 		{Name: "page_id", Type: field.TypeInt64},
 		{Name: "user_id", Type: field.TypeInt64},
@@ -28,19 +29,19 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "comments_comments_replies",
-				Columns:    []*schema.Column{CommentsColumns[6]},
+				Columns:    []*schema.Column{CommentsColumns[7]},
 				RefColumns: []*schema.Column{CommentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 			{
 				Symbol:     "comments_pages_comments",
-				Columns:    []*schema.Column{CommentsColumns[7]},
+				Columns:    []*schema.Column{CommentsColumns[8]},
 				RefColumns: []*schema.Column{PagesColumns[0]},
 				OnDelete:   schema.NoAction,
 			},
 			{
 				Symbol:     "comments_users_comments",
-				Columns:    []*schema.Column{CommentsColumns[8]},
+				Columns:    []*schema.Column{CommentsColumns[9]},
 				RefColumns: []*schema.Column{UsersColumns[0]},
 				OnDelete:   schema.NoAction,
 			},
@@ -49,12 +50,17 @@ var (
 			{
 				Name:    "comment_page_id_status_reply_to_id_id",
 				Unique:  false,
-				Columns: []*schema.Column{CommentsColumns[7], CommentsColumns[2], CommentsColumns[6], CommentsColumns[0]},
+				Columns: []*schema.Column{CommentsColumns[8], CommentsColumns[2], CommentsColumns[7], CommentsColumns[0]},
 			},
 			{
 				Name:    "comment_status_id",
 				Unique:  false,
 				Columns: []*schema.Column{CommentsColumns[2], CommentsColumns[0]},
+			},
+			{
+				Name:    "comment_approve_token",
+				Unique:  false,
+				Columns: []*schema.Column{CommentsColumns[6]},
 			},
 		},
 	}
@@ -66,6 +72,8 @@ var (
 		{Name: "cookie_secret", Type: field.TypeString},
 		{Name: "limit_per_batch", Type: field.TypeInt, Default: 5},
 		{Name: "max_loop_depth", Type: field.TypeInt, Default: 3},
+		{Name: "host", Type: field.TypeString, Default: "http://localhost:8080"},
+		{Name: "tg_bot_url", Type: field.TypeString, Default: ""},
 	}
 	// ConfsTable holds the schema information for the "confs" table.
 	ConfsTable = &schema.Table{

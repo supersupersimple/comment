@@ -110,6 +110,34 @@ func (cu *ConfUpdate) AddMaxLoopDepth(i int) *ConfUpdate {
 	return cu
 }
 
+// SetHost sets the "host" field.
+func (cu *ConfUpdate) SetHost(s string) *ConfUpdate {
+	cu.mutation.SetHost(s)
+	return cu
+}
+
+// SetNillableHost sets the "host" field if the given value is not nil.
+func (cu *ConfUpdate) SetNillableHost(s *string) *ConfUpdate {
+	if s != nil {
+		cu.SetHost(*s)
+	}
+	return cu
+}
+
+// SetTgBotURL sets the "tg_bot_url" field.
+func (cu *ConfUpdate) SetTgBotURL(s string) *ConfUpdate {
+	cu.mutation.SetTgBotURL(s)
+	return cu
+}
+
+// SetNillableTgBotURL sets the "tg_bot_url" field if the given value is not nil.
+func (cu *ConfUpdate) SetNillableTgBotURL(s *string) *ConfUpdate {
+	if s != nil {
+		cu.SetTgBotURL(*s)
+	}
+	return cu
+}
+
 // Mutation returns the ConfMutation object of the builder.
 func (cu *ConfUpdate) Mutation() *ConfMutation {
 	return cu.mutation
@@ -176,6 +204,12 @@ func (cu *ConfUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := cu.mutation.AddedMaxLoopDepth(); ok {
 		_spec.AddField(conf.FieldMaxLoopDepth, field.TypeInt, value)
+	}
+	if value, ok := cu.mutation.Host(); ok {
+		_spec.SetField(conf.FieldHost, field.TypeString, value)
+	}
+	if value, ok := cu.mutation.TgBotURL(); ok {
+		_spec.SetField(conf.FieldTgBotURL, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -279,6 +313,34 @@ func (cuo *ConfUpdateOne) AddMaxLoopDepth(i int) *ConfUpdateOne {
 	return cuo
 }
 
+// SetHost sets the "host" field.
+func (cuo *ConfUpdateOne) SetHost(s string) *ConfUpdateOne {
+	cuo.mutation.SetHost(s)
+	return cuo
+}
+
+// SetNillableHost sets the "host" field if the given value is not nil.
+func (cuo *ConfUpdateOne) SetNillableHost(s *string) *ConfUpdateOne {
+	if s != nil {
+		cuo.SetHost(*s)
+	}
+	return cuo
+}
+
+// SetTgBotURL sets the "tg_bot_url" field.
+func (cuo *ConfUpdateOne) SetTgBotURL(s string) *ConfUpdateOne {
+	cuo.mutation.SetTgBotURL(s)
+	return cuo
+}
+
+// SetNillableTgBotURL sets the "tg_bot_url" field if the given value is not nil.
+func (cuo *ConfUpdateOne) SetNillableTgBotURL(s *string) *ConfUpdateOne {
+	if s != nil {
+		cuo.SetTgBotURL(*s)
+	}
+	return cuo
+}
+
 // Mutation returns the ConfMutation object of the builder.
 func (cuo *ConfUpdateOne) Mutation() *ConfMutation {
 	return cuo.mutation
@@ -375,6 +437,12 @@ func (cuo *ConfUpdateOne) sqlSave(ctx context.Context) (_node *Conf, err error) 
 	}
 	if value, ok := cuo.mutation.AddedMaxLoopDepth(); ok {
 		_spec.AddField(conf.FieldMaxLoopDepth, field.TypeInt, value)
+	}
+	if value, ok := cuo.mutation.Host(); ok {
+		_spec.SetField(conf.FieldHost, field.TypeString, value)
+	}
+	if value, ok := cuo.mutation.TgBotURL(); ok {
+		_spec.SetField(conf.FieldTgBotURL, field.TypeString, value)
 	}
 	_node = &Conf{config: cuo.config}
 	_spec.Assign = _node.assignValues

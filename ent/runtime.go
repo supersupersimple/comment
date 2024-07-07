@@ -33,6 +33,10 @@ func init() {
 	commentDescDepth := commentFields[5].Descriptor()
 	// comment.DefaultDepth holds the default value on creation for the depth field.
 	comment.DefaultDepth = commentDescDepth.Default.(int)
+	// commentDescApproveToken is the schema descriptor for approve_token field.
+	commentDescApproveToken := commentFields[6].Descriptor()
+	// comment.DefaultApproveToken holds the default value on creation for the approve_token field.
+	comment.DefaultApproveToken = commentDescApproveToken.Default.(func() string)
 	// commentDescID is the schema descriptor for id field.
 	commentDescID := commentFields[0].Descriptor()
 	// comment.DefaultID holds the default value on creation for the id field.
@@ -47,6 +51,14 @@ func init() {
 	confDescMaxLoopDepth := confFields[4].Descriptor()
 	// conf.DefaultMaxLoopDepth holds the default value on creation for the max_loop_depth field.
 	conf.DefaultMaxLoopDepth = confDescMaxLoopDepth.Default.(int)
+	// confDescHost is the schema descriptor for host field.
+	confDescHost := confFields[5].Descriptor()
+	// conf.DefaultHost holds the default value on creation for the host field.
+	conf.DefaultHost = confDescHost.Default.(string)
+	// confDescTgBotURL is the schema descriptor for tg_bot_url field.
+	confDescTgBotURL := confFields[6].Descriptor()
+	// conf.DefaultTgBotURL holds the default value on creation for the tg_bot_url field.
+	conf.DefaultTgBotURL = confDescTgBotURL.Default.(string)
 	pageFields := schema.Page{}.Fields()
 	_ = pageFields
 	// pageDescCreatedAt is the schema descriptor for created_at field.

@@ -100,6 +100,26 @@ func (cu *CommentUpdate) AddDepth(i int) *CommentUpdate {
 	return cu
 }
 
+// SetApproveToken sets the "approve_token" field.
+func (cu *CommentUpdate) SetApproveToken(s string) *CommentUpdate {
+	cu.mutation.SetApproveToken(s)
+	return cu
+}
+
+// SetNillableApproveToken sets the "approve_token" field if the given value is not nil.
+func (cu *CommentUpdate) SetNillableApproveToken(s *string) *CommentUpdate {
+	if s != nil {
+		cu.SetApproveToken(*s)
+	}
+	return cu
+}
+
+// ClearApproveToken clears the value of the "approve_token" field.
+func (cu *CommentUpdate) ClearApproveToken() *CommentUpdate {
+	cu.mutation.ClearApproveToken()
+	return cu
+}
+
 // SetPageID sets the "page_id" field.
 func (cu *CommentUpdate) SetPageID(i int64) *CommentUpdate {
 	cu.mutation.SetPageID(i)
@@ -303,6 +323,12 @@ func (cu *CommentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := cu.mutation.AddedDepth(); ok {
 		_spec.AddField(comment.FieldDepth, field.TypeInt, value)
+	}
+	if value, ok := cu.mutation.ApproveToken(); ok {
+		_spec.SetField(comment.FieldApproveToken, field.TypeString, value)
+	}
+	if cu.mutation.ApproveTokenCleared() {
+		_spec.ClearField(comment.FieldApproveToken, field.TypeString)
 	}
 	if cu.mutation.PageCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -522,6 +548,26 @@ func (cuo *CommentUpdateOne) SetNillableDepth(i *int) *CommentUpdateOne {
 // AddDepth adds i to the "depth" field.
 func (cuo *CommentUpdateOne) AddDepth(i int) *CommentUpdateOne {
 	cuo.mutation.AddDepth(i)
+	return cuo
+}
+
+// SetApproveToken sets the "approve_token" field.
+func (cuo *CommentUpdateOne) SetApproveToken(s string) *CommentUpdateOne {
+	cuo.mutation.SetApproveToken(s)
+	return cuo
+}
+
+// SetNillableApproveToken sets the "approve_token" field if the given value is not nil.
+func (cuo *CommentUpdateOne) SetNillableApproveToken(s *string) *CommentUpdateOne {
+	if s != nil {
+		cuo.SetApproveToken(*s)
+	}
+	return cuo
+}
+
+// ClearApproveToken clears the value of the "approve_token" field.
+func (cuo *CommentUpdateOne) ClearApproveToken() *CommentUpdateOne {
+	cuo.mutation.ClearApproveToken()
 	return cuo
 }
 
@@ -758,6 +804,12 @@ func (cuo *CommentUpdateOne) sqlSave(ctx context.Context) (_node *Comment, err e
 	}
 	if value, ok := cuo.mutation.AddedDepth(); ok {
 		_spec.AddField(comment.FieldDepth, field.TypeInt, value)
+	}
+	if value, ok := cuo.mutation.ApproveToken(); ok {
+		_spec.SetField(comment.FieldApproveToken, field.TypeString, value)
+	}
+	if cuo.mutation.ApproveTokenCleared() {
+		_spec.ClearField(comment.FieldApproveToken, field.TypeString)
 	}
 	if cuo.mutation.PageCleared() {
 		edge := &sqlgraph.EdgeSpec{

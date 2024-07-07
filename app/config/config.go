@@ -15,6 +15,9 @@ const (
 
 	LimitPerBatch = "limit_per_batch"
 	MaxLoopDepth  = "max_loop_depth"
+
+	Host     = "host"
+	TgBotUrl = "tg_bot_url"
 )
 
 func setDefaultConfig() {
@@ -25,6 +28,8 @@ func setDefaultConfig() {
 
 	viper.SetDefault(LimitPerBatch, 5)
 	viper.SetDefault(MaxLoopDepth, 3)
+	viper.SetDefault(TgBotUrl, "")
+	viper.SetDefault(Host, "http://localhost:8080")
 }
 
 func LoadConfig(client *ent.Client) error {
@@ -46,4 +51,6 @@ func updateConfig(conf *ent.Conf) {
 	viper.Set(LimitPerBatch, conf.LimitPerBatch)
 	viper.Set(MaxLoopDepth, conf.MaxLoopDepth)
 	viper.Set(AllowOrigins, conf.AllowOrigins)
+	viper.Set(TgBotUrl, conf.TgBotURL)
+	viper.Set(Host, conf.Host)
 }

@@ -76,6 +76,11 @@ func Depth(v int) predicate.Comment {
 	return predicate.Comment(sql.FieldEQ(FieldDepth, v))
 }
 
+// ApproveToken applies equality check predicate on the "approve_token" field. It's identical to ApproveTokenEQ.
+func ApproveToken(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldEQ(FieldApproveToken, v))
+}
+
 // PageID applies equality check predicate on the "page_id" field. It's identical to PageIDEQ.
 func PageID(v int64) predicate.Comment {
 	return predicate.Comment(sql.FieldEQ(FieldPageID, v))
@@ -294,6 +299,81 @@ func DepthLT(v int) predicate.Comment {
 // DepthLTE applies the LTE predicate on the "depth" field.
 func DepthLTE(v int) predicate.Comment {
 	return predicate.Comment(sql.FieldLTE(FieldDepth, v))
+}
+
+// ApproveTokenEQ applies the EQ predicate on the "approve_token" field.
+func ApproveTokenEQ(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldEQ(FieldApproveToken, v))
+}
+
+// ApproveTokenNEQ applies the NEQ predicate on the "approve_token" field.
+func ApproveTokenNEQ(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldNEQ(FieldApproveToken, v))
+}
+
+// ApproveTokenIn applies the In predicate on the "approve_token" field.
+func ApproveTokenIn(vs ...string) predicate.Comment {
+	return predicate.Comment(sql.FieldIn(FieldApproveToken, vs...))
+}
+
+// ApproveTokenNotIn applies the NotIn predicate on the "approve_token" field.
+func ApproveTokenNotIn(vs ...string) predicate.Comment {
+	return predicate.Comment(sql.FieldNotIn(FieldApproveToken, vs...))
+}
+
+// ApproveTokenGT applies the GT predicate on the "approve_token" field.
+func ApproveTokenGT(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldGT(FieldApproveToken, v))
+}
+
+// ApproveTokenGTE applies the GTE predicate on the "approve_token" field.
+func ApproveTokenGTE(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldGTE(FieldApproveToken, v))
+}
+
+// ApproveTokenLT applies the LT predicate on the "approve_token" field.
+func ApproveTokenLT(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldLT(FieldApproveToken, v))
+}
+
+// ApproveTokenLTE applies the LTE predicate on the "approve_token" field.
+func ApproveTokenLTE(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldLTE(FieldApproveToken, v))
+}
+
+// ApproveTokenContains applies the Contains predicate on the "approve_token" field.
+func ApproveTokenContains(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldContains(FieldApproveToken, v))
+}
+
+// ApproveTokenHasPrefix applies the HasPrefix predicate on the "approve_token" field.
+func ApproveTokenHasPrefix(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldHasPrefix(FieldApproveToken, v))
+}
+
+// ApproveTokenHasSuffix applies the HasSuffix predicate on the "approve_token" field.
+func ApproveTokenHasSuffix(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldHasSuffix(FieldApproveToken, v))
+}
+
+// ApproveTokenIsNil applies the IsNil predicate on the "approve_token" field.
+func ApproveTokenIsNil() predicate.Comment {
+	return predicate.Comment(sql.FieldIsNull(FieldApproveToken))
+}
+
+// ApproveTokenNotNil applies the NotNil predicate on the "approve_token" field.
+func ApproveTokenNotNil() predicate.Comment {
+	return predicate.Comment(sql.FieldNotNull(FieldApproveToken))
+}
+
+// ApproveTokenEqualFold applies the EqualFold predicate on the "approve_token" field.
+func ApproveTokenEqualFold(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldEqualFold(FieldApproveToken, v))
+}
+
+// ApproveTokenContainsFold applies the ContainsFold predicate on the "approve_token" field.
+func ApproveTokenContainsFold(v string) predicate.Comment {
+	return predicate.Comment(sql.FieldContainsFold(FieldApproveToken, v))
 }
 
 // PageIDEQ applies the EQ predicate on the "page_id" field.

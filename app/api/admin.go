@@ -59,6 +59,31 @@ func AdminGetComments(c *gin.Context) {
 	))
 }
 
+func AnonymousApprove(c *gin.Context) {
+	anonymousOperateComment(c, true)
+}
+
+func AnonymousReject(c *gin.Context) {
+	anonymousOperateComment(c, false)
+}
+
+func anonymousOperateComment(c *gin.Context, approve bool) {
+	token := c.Param("token")
+	client := ctxutil.DB(c)
+	co := client.Comment.Query().Where(comment.ApproveTokenEQ(token)).OnlyX(c)
+	if co.Status != comment.StatusPending {
+		c.String(http.StatusBadRequest, "comment already final status")
+		return
+	}
+
+	if approve {
+		client.Comment.UpdateOneID(co.ID).SetStatus(comment.StatusApproved).ExecX(c)
+	} else {
+		client.Comment.UpdateOneID(co.ID).SetStatus(comment.StatusRejected).ExecX(c)
+	}
+	c.String(http.StatusOK, "Done")
+}
+
 func ApproveComment(c *gin.Context) {
 	id, err := xid.FromString(c.Param("id"))
 	if err != nil {
@@ -145,6 +170,8 @@ func AdminSetup(c *gin.Context) {
 		cfg.SetMaxLoopDepth(req.MaxLoopDepth)
 		cfg.SetPassword(hashPwd)
 		cfg.SetAllowOrigins(origins)
+		cfg.SetHost(req.Host)
+		cfg.SetTgBotURL(req.TgBotUrl)
 		_, err := cfg.Save(c)
 		if err != nil {
 			return err
