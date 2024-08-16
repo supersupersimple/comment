@@ -1,8 +1,6 @@
 package components
 
-import (
-	"github.com/supersupersimple/comment/app/model"
-)
+import "github.com/supersupersimple/comment/app/model"
 
 templ CommentList(comments []*model.Comment) {
 	for _, comment := range comments {

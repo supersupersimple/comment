@@ -2,12 +2,10 @@ package server
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"log"
 	"log/slog"
 	"net/http"
-	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -24,6 +22,7 @@ import (
 	"github.com/supersupersimple/comment/app/middleware"
 	"github.com/supersupersimple/comment/app/render"
 	"github.com/supersupersimple/comment/ent"
+	"github.com/supersupersimple/litestream-lib/lslib"
 	"go.uber.org/ratelimit"
 
 	_ "modernc.org/sqlite"
@@ -39,16 +38,8 @@ func StartWebServer(https bool, host string, port int) {
 	)
 	defer stop()
 
-	if os.Getenv(EnvLitestreamUrl) != "" {
-		lsdb, err := replicate(ctx, "data/comments.sqlite")
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer lsdb.SoftClose(ctx)
-	}
-
-	client := initDB()
-	defer client.Close()
+	client, lsdb := initDB(ctx)
+	defer closeDB(ctx, client, lsdb)
 
 	config.LoadConfig(client)
 
@@ -120,9 +111,9 @@ func runWithCtx(ctx context.Context, r *gin.Engine, addr string, stop context.Ca
 	slog.Info("Server exiting")
 }
 
-func initDB() *ent.Client {
-	db, err := sql.Open("sqlite", "file:data/comments.sqlite?_pragma=foreign_keys(1)")
-	// db, err := sql.Open("sqlite3", "file:data/comments.sqlite?_fk=1")
+func initDB(ctx context.Context) (*ent.Client, lslib.DB) {
+	lsdb := lslib.NewDB(lslib.NewConfig("file:data/comments.sqlite?_pragma=foreign_keys(1)&_pragma=journal_mode(WAL)").WithDriverName("sqlite"))
+	db, err := lsdb.Open(ctx)
 	if err != nil {
 		log.Fatalf("failed opening connection to sqlite: %v", err)
 	}
@@ -135,7 +126,12 @@ func initDB() *ent.Client {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
 
-	return client
+	return client, lsdb
+}
+
+func closeDB(ctx context.Context, client *ent.Client, lsdb lslib.DB) {
+	client.Close()
+	lsdb.Close(ctx)
 }
 
 func corsConfig() cors.Config {

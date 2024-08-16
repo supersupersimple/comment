@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	entgo.io/ent v0.13.1
-	github.com/a-h/templ v0.2.707
+	github.com/a-h/templ v0.2.747
 	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-contrib/sessions v1.0.1
 	github.com/gin-gonic/autotls v1.1.0
@@ -17,7 +17,7 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.19.0
-	github.com/supersupersimple/litestream-lib v0.0.0-20240630035040-6e2f970f6297
+	github.com/supersupersimple/litestream-lib v0.0.0-20240815093737-a0564900697b
 	go.uber.org/ratelimit v0.3.1
 	golang.org/x/crypto v0.23.0
 	golang.org/x/exp v0.0.0-20231108232855-2478ac86f678
@@ -91,7 +91,7 @@ require (
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.20.0 // indirect
+	golang.org/x/sys v0.21.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
