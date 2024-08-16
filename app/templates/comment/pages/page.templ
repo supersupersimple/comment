@@ -1,7 +1,9 @@
 package pages
 
-import "github.com/supersupersimple/comment/app/templates/comment/components"
-import "github.com/supersupersimple/comment/app/model"
+import (
+	"github.com/supersupersimple/comment/app/model"
+	"github.com/supersupersimple/comment/app/templates/comment/components"
+)
 
 templ Page(pageVals *model.PageVals, comments []*model.Comment) {
 	@Base(pageVals)
