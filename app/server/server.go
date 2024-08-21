@@ -112,7 +112,7 @@ func runWithCtx(ctx context.Context, r *gin.Engine, addr string, stop context.Ca
 }
 
 func initDB(ctx context.Context) (*ent.Client, lslib.DB) {
-	lsdb := lslib.NewDB(lslib.NewConfig("file:data/comments.sqlite?_pragma=foreign_keys(1)&_pragma=journal_mode(WAL)").WithDriverName("sqlite"))
+	lsdb := lslib.NewDB(lslib.NewConfig("data/comments.sqlite?_pragma=foreign_keys(1)&_pragma=journal_mode(WAL)").WithDriverName("sqlite"))
 	db, err := lsdb.Open(ctx)
 	if err != nil {
 		log.Fatalf("failed opening connection to sqlite: %v", err)
