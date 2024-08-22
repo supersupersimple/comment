@@ -30,12 +30,11 @@ RUN make docker-node-build
 ############################
 FROM gcr.io/distroless/static-debian12
 
-WORKDIR /home/nonroot
-USER nonroot
+WORKDIR /app
 
 ENV GIN_MODE=release
 
-COPY --chown=nonroot:nonroot --from=go-builder /go/src/app/comment ./
-COPY --chown=nonroot:nonroot --from=go-builder /go/src/app/tmp/data ./
-COPY --chown=nonroot:nonroot --from=node-builder /node/src/app/assets/dist ./app/assets/dist
+COPY --from=go-builder /go/src/app/comment ./
+COPY --from=go-builder /go/src/app/tmp/data ./
+COPY --from=node-builder /node/src/app/assets/dist ./app/assets/dist
 CMD ["./comment", "serve", "--https=false"] 
