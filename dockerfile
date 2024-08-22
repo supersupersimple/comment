@@ -51,7 +51,8 @@ COPY --from=go-builder /etc/passwd /etc/passwd
 COPY --from=go-builder /etc/group /etc/group
 USER appuser:appuser
 
-COPY --chown=appuser:appuser --from=go-builder /go/src/app/comment ./
-COPY --chown=appuser:appuser --from=go-builder /go/src/app/tmp/data ./
-COPY --chown=appuser:appuser --from=node-builder /node/src/app/assets/dist ./app/assets/dist
+COPY --from=go-builder /go/src/app/comment ./
+COPY --from=go-builder /go/src/app/tmp/data ./
+COPY --from=node-builder /node/src/app/assets/dist ./app/assets/dist
+RUN chown -R appuser:appuser /app
 ENTRYPOINT ["./comment", "serve", "--https=false"] 
