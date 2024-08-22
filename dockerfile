@@ -40,7 +40,7 @@ RUN make docker-node-build
 ############################
 # STEP 3 build a small image
 ############################
-FROM gcr.io/distroless/static-debian12
+FROM gcr.io/distroless/static-debian12:debug
 
 WORKDIR /app
 
