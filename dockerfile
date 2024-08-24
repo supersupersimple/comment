@@ -35,4 +35,5 @@ ENV GIN_MODE=release
 COPY --from=go-builder --chown=nonroot:nonroot /go/src/app/comment ./
 COPY --from=go-builder --chown=nonroot:nonroot /go/src/app/tmp/data ./
 COPY --from=node-builder --chown=nonroot:nonroot /node/src/app/assets/dist ./app/assets/dist
+VOLUME ["/home/nonroot/data"]
 CMD ["./comment", "serve", "--https=false"] 
