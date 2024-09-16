@@ -30,7 +30,9 @@ type Conf struct {
 	// Host holds the value of the "host" field.
 	Host string `json:"host,omitempty"`
 	// TgBotURL holds the value of the "tg_bot_url" field.
-	TgBotURL     string `json:"tg_bot_url,omitempty"`
+	TgBotURL string `json:"tg_bot_url,omitempty"`
+	// RateLimit holds the value of the "rate_limit" field.
+	RateLimit    int `json:"rate_limit,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -41,7 +43,7 @@ func (*Conf) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case conf.FieldAllowOrigins:
 			values[i] = new([]byte)
-		case conf.FieldID, conf.FieldLimitPerBatch, conf.FieldMaxLoopDepth:
+		case conf.FieldID, conf.FieldLimitPerBatch, conf.FieldMaxLoopDepth, conf.FieldRateLimit:
 			values[i] = new(sql.NullInt64)
 		case conf.FieldPassword, conf.FieldCookieSecret, conf.FieldHost, conf.FieldTgBotURL:
 			values[i] = new(sql.NullString)
@@ -110,6 +112,12 @@ func (c *Conf) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				c.TgBotURL = value.String
 			}
+		case conf.FieldRateLimit:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field rate_limit", values[i])
+			} else if value.Valid {
+				c.RateLimit = int(value.Int64)
+			}
 		default:
 			c.selectValues.Set(columns[i], values[i])
 		}
@@ -165,6 +173,9 @@ func (c *Conf) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("tg_bot_url=")
 	builder.WriteString(c.TgBotURL)
+	builder.WriteString(", ")
+	builder.WriteString("rate_limit=")
+	builder.WriteString(fmt.Sprintf("%v", c.RateLimit))
 	builder.WriteByte(')')
 	return builder.String()
 }

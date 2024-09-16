@@ -1122,6 +1122,8 @@ type ConfMutation struct {
 	addmax_loop_depth   *int
 	host                *string
 	tg_bot_url          *string
+	rate_limit          *int
+	addrate_limit       *int
 	clearedFields       map[string]struct{}
 	done                bool
 	oldValue            func(context.Context) (*Conf, error)
@@ -1533,6 +1535,62 @@ func (m *ConfMutation) ResetTgBotURL() {
 	m.tg_bot_url = nil
 }
 
+// SetRateLimit sets the "rate_limit" field.
+func (m *ConfMutation) SetRateLimit(i int) {
+	m.rate_limit = &i
+	m.addrate_limit = nil
+}
+
+// RateLimit returns the value of the "rate_limit" field in the mutation.
+func (m *ConfMutation) RateLimit() (r int, exists bool) {
+	v := m.rate_limit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRateLimit returns the old "rate_limit" field's value of the Conf entity.
+// If the Conf object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ConfMutation) OldRateLimit(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRateLimit is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRateLimit requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRateLimit: %w", err)
+	}
+	return oldValue.RateLimit, nil
+}
+
+// AddRateLimit adds i to the "rate_limit" field.
+func (m *ConfMutation) AddRateLimit(i int) {
+	if m.addrate_limit != nil {
+		*m.addrate_limit += i
+	} else {
+		m.addrate_limit = &i
+	}
+}
+
+// AddedRateLimit returns the value that was added to the "rate_limit" field in this mutation.
+func (m *ConfMutation) AddedRateLimit() (r int, exists bool) {
+	v := m.addrate_limit
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetRateLimit resets all changes to the "rate_limit" field.
+func (m *ConfMutation) ResetRateLimit() {
+	m.rate_limit = nil
+	m.addrate_limit = nil
+}
+
 // Where appends a list predicates to the ConfMutation builder.
 func (m *ConfMutation) Where(ps ...predicate.Conf) {
 	m.predicates = append(m.predicates, ps...)
@@ -1567,7 +1625,7 @@ func (m *ConfMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ConfMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.password != nil {
 		fields = append(fields, conf.FieldPassword)
 	}
@@ -1588,6 +1646,9 @@ func (m *ConfMutation) Fields() []string {
 	}
 	if m.tg_bot_url != nil {
 		fields = append(fields, conf.FieldTgBotURL)
+	}
+	if m.rate_limit != nil {
+		fields = append(fields, conf.FieldRateLimit)
 	}
 	return fields
 }
@@ -1611,6 +1672,8 @@ func (m *ConfMutation) Field(name string) (ent.Value, bool) {
 		return m.Host()
 	case conf.FieldTgBotURL:
 		return m.TgBotURL()
+	case conf.FieldRateLimit:
+		return m.RateLimit()
 	}
 	return nil, false
 }
@@ -1634,6 +1697,8 @@ func (m *ConfMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldHost(ctx)
 	case conf.FieldTgBotURL:
 		return m.OldTgBotURL(ctx)
+	case conf.FieldRateLimit:
+		return m.OldRateLimit(ctx)
 	}
 	return nil, fmt.Errorf("unknown Conf field %s", name)
 }
@@ -1692,6 +1757,13 @@ func (m *ConfMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetTgBotURL(v)
 		return nil
+	case conf.FieldRateLimit:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRateLimit(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Conf field %s", name)
 }
@@ -1706,6 +1778,9 @@ func (m *ConfMutation) AddedFields() []string {
 	if m.addmax_loop_depth != nil {
 		fields = append(fields, conf.FieldMaxLoopDepth)
 	}
+	if m.addrate_limit != nil {
+		fields = append(fields, conf.FieldRateLimit)
+	}
 	return fields
 }
 
@@ -1718,6 +1793,8 @@ func (m *ConfMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedLimitPerBatch()
 	case conf.FieldMaxLoopDepth:
 		return m.AddedMaxLoopDepth()
+	case conf.FieldRateLimit:
+		return m.AddedRateLimit()
 	}
 	return nil, false
 }
@@ -1740,6 +1817,13 @@ func (m *ConfMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddMaxLoopDepth(v)
+		return nil
+	case conf.FieldRateLimit:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddRateLimit(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Conf numeric field %s", name)
@@ -1788,6 +1872,9 @@ func (m *ConfMutation) ResetField(name string) error {
 		return nil
 	case conf.FieldTgBotURL:
 		m.ResetTgBotURL()
+		return nil
+	case conf.FieldRateLimit:
+		m.ResetRateLimit()
 		return nil
 	}
 	return fmt.Errorf("unknown Conf field %s", name)

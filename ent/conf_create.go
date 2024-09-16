@@ -93,6 +93,20 @@ func (cc *ConfCreate) SetNillableTgBotURL(s *string) *ConfCreate {
 	return cc
 }
 
+// SetRateLimit sets the "rate_limit" field.
+func (cc *ConfCreate) SetRateLimit(i int) *ConfCreate {
+	cc.mutation.SetRateLimit(i)
+	return cc
+}
+
+// SetNillableRateLimit sets the "rate_limit" field if the given value is not nil.
+func (cc *ConfCreate) SetNillableRateLimit(i *int) *ConfCreate {
+	if i != nil {
+		cc.SetRateLimit(*i)
+	}
+	return cc
+}
+
 // Mutation returns the ConfMutation object of the builder.
 func (cc *ConfCreate) Mutation() *ConfMutation {
 	return cc.mutation
@@ -144,6 +158,10 @@ func (cc *ConfCreate) defaults() {
 		v := conf.DefaultTgBotURL
 		cc.mutation.SetTgBotURL(v)
 	}
+	if _, ok := cc.mutation.RateLimit(); !ok {
+		v := conf.DefaultRateLimit
+		cc.mutation.SetRateLimit(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -168,6 +186,9 @@ func (cc *ConfCreate) check() error {
 	}
 	if _, ok := cc.mutation.TgBotURL(); !ok {
 		return &ValidationError{Name: "tg_bot_url", err: errors.New(`ent: missing required field "Conf.tg_bot_url"`)}
+	}
+	if _, ok := cc.mutation.RateLimit(); !ok {
+		return &ValidationError{Name: "rate_limit", err: errors.New(`ent: missing required field "Conf.rate_limit"`)}
 	}
 	return nil
 }
@@ -222,6 +243,10 @@ func (cc *ConfCreate) createSpec() (*Conf, *sqlgraph.CreateSpec) {
 	if value, ok := cc.mutation.TgBotURL(); ok {
 		_spec.SetField(conf.FieldTgBotURL, field.TypeString, value)
 		_node.TgBotURL = value
+	}
+	if value, ok := cc.mutation.RateLimit(); ok {
+		_spec.SetField(conf.FieldRateLimit, field.TypeInt, value)
+		_node.RateLimit = value
 	}
 	return _node, _spec
 }

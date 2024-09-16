@@ -138,6 +138,27 @@ func (cu *ConfUpdate) SetNillableTgBotURL(s *string) *ConfUpdate {
 	return cu
 }
 
+// SetRateLimit sets the "rate_limit" field.
+func (cu *ConfUpdate) SetRateLimit(i int) *ConfUpdate {
+	cu.mutation.ResetRateLimit()
+	cu.mutation.SetRateLimit(i)
+	return cu
+}
+
+// SetNillableRateLimit sets the "rate_limit" field if the given value is not nil.
+func (cu *ConfUpdate) SetNillableRateLimit(i *int) *ConfUpdate {
+	if i != nil {
+		cu.SetRateLimit(*i)
+	}
+	return cu
+}
+
+// AddRateLimit adds i to the "rate_limit" field.
+func (cu *ConfUpdate) AddRateLimit(i int) *ConfUpdate {
+	cu.mutation.AddRateLimit(i)
+	return cu
+}
+
 // Mutation returns the ConfMutation object of the builder.
 func (cu *ConfUpdate) Mutation() *ConfMutation {
 	return cu.mutation
@@ -210,6 +231,12 @@ func (cu *ConfUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := cu.mutation.TgBotURL(); ok {
 		_spec.SetField(conf.FieldTgBotURL, field.TypeString, value)
+	}
+	if value, ok := cu.mutation.RateLimit(); ok {
+		_spec.SetField(conf.FieldRateLimit, field.TypeInt, value)
+	}
+	if value, ok := cu.mutation.AddedRateLimit(); ok {
+		_spec.AddField(conf.FieldRateLimit, field.TypeInt, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -341,6 +368,27 @@ func (cuo *ConfUpdateOne) SetNillableTgBotURL(s *string) *ConfUpdateOne {
 	return cuo
 }
 
+// SetRateLimit sets the "rate_limit" field.
+func (cuo *ConfUpdateOne) SetRateLimit(i int) *ConfUpdateOne {
+	cuo.mutation.ResetRateLimit()
+	cuo.mutation.SetRateLimit(i)
+	return cuo
+}
+
+// SetNillableRateLimit sets the "rate_limit" field if the given value is not nil.
+func (cuo *ConfUpdateOne) SetNillableRateLimit(i *int) *ConfUpdateOne {
+	if i != nil {
+		cuo.SetRateLimit(*i)
+	}
+	return cuo
+}
+
+// AddRateLimit adds i to the "rate_limit" field.
+func (cuo *ConfUpdateOne) AddRateLimit(i int) *ConfUpdateOne {
+	cuo.mutation.AddRateLimit(i)
+	return cuo
+}
+
 // Mutation returns the ConfMutation object of the builder.
 func (cuo *ConfUpdateOne) Mutation() *ConfMutation {
 	return cuo.mutation
@@ -443,6 +491,12 @@ func (cuo *ConfUpdateOne) sqlSave(ctx context.Context) (_node *Conf, err error) 
 	}
 	if value, ok := cuo.mutation.TgBotURL(); ok {
 		_spec.SetField(conf.FieldTgBotURL, field.TypeString, value)
+	}
+	if value, ok := cuo.mutation.RateLimit(); ok {
+		_spec.SetField(conf.FieldRateLimit, field.TypeInt, value)
+	}
+	if value, ok := cuo.mutation.AddedRateLimit(); ok {
+		_spec.AddField(conf.FieldRateLimit, field.TypeInt, value)
 	}
 	_node = &Conf{config: cuo.config}
 	_spec.Assign = _node.assignValues

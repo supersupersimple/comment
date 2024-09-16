@@ -172,6 +172,7 @@ func AdminSetup(c *gin.Context) {
 		cfg.SetAllowOrigins(origins)
 		cfg.SetHost(req.Host)
 		cfg.SetTgBotURL(req.TgBotUrl)
+		cfg.SetRateLimit(req.RateLimit)
 		_, err := cfg.Save(c)
 		if err != nil {
 			return err

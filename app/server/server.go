@@ -48,7 +48,7 @@ func StartWebServer(https bool, host string, port int) {
 
 	ginHtmlRenderer := r.HTMLRender
 	r.HTMLRender = &render.HTMLTemplRenderer{FallbackHtmlRenderer: ginHtmlRenderer}
-	limiter := ratelimit.New(1)
+	limiter := ratelimit.New(viper.GetInt(config.RateLimit))
 
 	r.Use(middleware.CSRF())
 	r.Use(middleware.Ent(client))

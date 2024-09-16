@@ -74,6 +74,7 @@ var (
 		{Name: "max_loop_depth", Type: field.TypeInt, Default: 3},
 		{Name: "host", Type: field.TypeString, Default: "http://localhost:8080"},
 		{Name: "tg_bot_url", Type: field.TypeString, Default: ""},
+		{Name: "rate_limit", Type: field.TypeInt, Default: 1},
 	}
 	// ConfsTable holds the schema information for the "confs" table.
 	ConfsTable = &schema.Table{
