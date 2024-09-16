@@ -48,6 +48,10 @@ templ Setup(pageVals *model.AdminPageVals) {
 				<span class="label-text">Telegram bot url</span>
 			</div>
 			<input name="tg_bot_url" type="text" class="input input-bordered w-full" placeholder=""/>
+			<div class="label">
+				<span class="label-text">Rate limit(per second)</span>
+			</div>
+			<input name="rate_limit" type="number" class="input input-bordered w-full" placeholder="" value="1" required/>
 			<button class="btn mt-4" type="submit" value="Create">Create</button>
 		</label>
 	</form>

@@ -35,7 +35,8 @@ type ReqAdminSetup struct {
 	AllowOrigins  string `form:"allow_origins" binding:"required"`
 	LimitPerBatch int    `form:"limit_per_batch" binding:"required,gte=5,lte=20"`
 	MaxLoopDepth  int    `form:"max_loop_depth" binding:"required,gte=3,lte=5"`
-	TgBotUrl      string `form:""tg_bot_url`
+	TgBotUrl      string `form:"tg_bot_url"`
+	RateLimit     int    `form:"rate_limit" binding:"required,gte=1"`
 }
 
 type AdminComment struct {

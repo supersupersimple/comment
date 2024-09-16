@@ -59,6 +59,10 @@ func init() {
 	confDescTgBotURL := confFields[6].Descriptor()
 	// conf.DefaultTgBotURL holds the default value on creation for the tg_bot_url field.
 	conf.DefaultTgBotURL = confDescTgBotURL.Default.(string)
+	// confDescRateLimit is the schema descriptor for rate_limit field.
+	confDescRateLimit := confFields[7].Descriptor()
+	// conf.DefaultRateLimit holds the default value on creation for the rate_limit field.
+	conf.DefaultRateLimit = confDescRateLimit.Default.(int)
 	pageFields := schema.Page{}.Fields()
 	_ = pageFields
 	// pageDescCreatedAt is the schema descriptor for created_at field.
