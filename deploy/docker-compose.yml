@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      # - "--log.level=DEBUG"
+      # - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"    
+      - "--certificatesresolvers.myresolver.acme.email=youremail@address.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      # - "8080:8080"
+    volumes:
+      - "~/letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    # restart: always
+
+  comment:
+    image: ghcr.io/supersupersimple/comment:latest
+    container_name: comment
+    environment:
+      LITESTREAM_URL: "s3://"
+      LITESTREAM_ACCESS_KEY_ID: ""
+      LITESTREAM_SECRET_ACCESS_KEY: ""
+    volumes:
+      - ~/comment/data:/home/nonroot/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.comment.rule=Host(`comment.example.com`)"
+      - "traefik.http.routers.comment.service=comment-service"
+      - "traefik.http.routers.comment.entrypoints=websecure"
+      - "traefik.http.routers.comment.tls.certresolver=myresolver"
+      - "traefik.http.services.comment-service.loadbalancer.server.port=8080"

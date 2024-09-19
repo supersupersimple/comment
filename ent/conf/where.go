@@ -82,6 +82,11 @@ func TgBotURL(v string) predicate.Conf {
 	return predicate.Conf(sql.FieldEQ(FieldTgBotURL, v))
 }
 
+// RateLimit applies equality check predicate on the "rate_limit" field. It's identical to RateLimitEQ.
+func RateLimit(v int) predicate.Conf {
+	return predicate.Conf(sql.FieldEQ(FieldRateLimit, v))
+}
+
 // PasswordEQ applies the EQ predicate on the "password" field.
 func PasswordEQ(v string) predicate.Conf {
 	return predicate.Conf(sql.FieldEQ(FieldPassword, v))
@@ -420,6 +425,46 @@ func TgBotURLEqualFold(v string) predicate.Conf {
 // TgBotURLContainsFold applies the ContainsFold predicate on the "tg_bot_url" field.
 func TgBotURLContainsFold(v string) predicate.Conf {
 	return predicate.Conf(sql.FieldContainsFold(FieldTgBotURL, v))
+}
+
+// RateLimitEQ applies the EQ predicate on the "rate_limit" field.
+func RateLimitEQ(v int) predicate.Conf {
+	return predicate.Conf(sql.FieldEQ(FieldRateLimit, v))
+}
+
+// RateLimitNEQ applies the NEQ predicate on the "rate_limit" field.
+func RateLimitNEQ(v int) predicate.Conf {
+	return predicate.Conf(sql.FieldNEQ(FieldRateLimit, v))
+}
+
+// RateLimitIn applies the In predicate on the "rate_limit" field.
+func RateLimitIn(vs ...int) predicate.Conf {
+	return predicate.Conf(sql.FieldIn(FieldRateLimit, vs...))
+}
+
+// RateLimitNotIn applies the NotIn predicate on the "rate_limit" field.
+func RateLimitNotIn(vs ...int) predicate.Conf {
+	return predicate.Conf(sql.FieldNotIn(FieldRateLimit, vs...))
+}
+
+// RateLimitGT applies the GT predicate on the "rate_limit" field.
+func RateLimitGT(v int) predicate.Conf {
+	return predicate.Conf(sql.FieldGT(FieldRateLimit, v))
+}
+
+// RateLimitGTE applies the GTE predicate on the "rate_limit" field.
+func RateLimitGTE(v int) predicate.Conf {
+	return predicate.Conf(sql.FieldGTE(FieldRateLimit, v))
+}
+
+// RateLimitLT applies the LT predicate on the "rate_limit" field.
+func RateLimitLT(v int) predicate.Conf {
+	return predicate.Conf(sql.FieldLT(FieldRateLimit, v))
+}
+
+// RateLimitLTE applies the LTE predicate on the "rate_limit" field.
+func RateLimitLTE(v int) predicate.Conf {
+	return predicate.Conf(sql.FieldLTE(FieldRateLimit, v))
 }
 
 // And groups predicates with the AND operator between them.

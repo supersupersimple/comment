@@ -20,6 +20,7 @@ func (Conf) Fields() []ent.Field {
 		field.Int("max_loop_depth").Default(3),
 		field.String("host").Default("http://localhost:8080"),
 		field.String("tg_bot_url").Default(""),
+		field.Int("rate_limit").Default(1), // write new comment rate limit per second
 	}
 }
 

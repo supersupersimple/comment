@@ -25,6 +25,8 @@ const (
 	FieldHost = "host"
 	// FieldTgBotURL holds the string denoting the tg_bot_url field in the database.
 	FieldTgBotURL = "tg_bot_url"
+	// FieldRateLimit holds the string denoting the rate_limit field in the database.
+	FieldRateLimit = "rate_limit"
 	// Table holds the table name of the conf in the database.
 	Table = "confs"
 )
@@ -39,6 +41,7 @@ var Columns = []string{
 	FieldMaxLoopDepth,
 	FieldHost,
 	FieldTgBotURL,
+	FieldRateLimit,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -60,6 +63,8 @@ var (
 	DefaultHost string
 	// DefaultTgBotURL holds the default value on creation for the "tg_bot_url" field.
 	DefaultTgBotURL string
+	// DefaultRateLimit holds the default value on creation for the "rate_limit" field.
+	DefaultRateLimit int
 )
 
 // OrderOption defines the ordering options for the Conf queries.
@@ -98,4 +103,9 @@ func ByHost(opts ...sql.OrderTermOption) OrderOption {
 // ByTgBotURL orders the results by the tg_bot_url field.
 func ByTgBotURL(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTgBotURL, opts...).ToFunc()
+}
+
+// ByRateLimit orders the results by the rate_limit field.
+func ByRateLimit(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRateLimit, opts...).ToFunc()
 }
