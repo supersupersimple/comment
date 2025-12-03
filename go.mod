@@ -1,6 +1,6 @@
 module github.com/supersupersimple/comment
 
-go 1.22.3
+go 1.24.0
 
 require (
 	entgo.io/ent v0.13.1
@@ -19,7 +19,7 @@ require (
 	github.com/spf13/viper v1.19.0
 	github.com/supersupersimple/litestream-lib v0.0.0-20240815093737-a0564900697b
 	go.uber.org/ratelimit v0.3.1
-	golang.org/x/crypto v0.31.0
+	golang.org/x/crypto v0.45.0
 	golang.org/x/exp v0.0.0-20231108232855-2478ac86f678
 	modernc.org/sqlite v1.30.1
 )
@@ -88,11 +88,11 @@ require (
 	github.com/zclconf/go-cty v1.8.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/mod v0.17.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/mod v0.29.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/text v0.31.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
