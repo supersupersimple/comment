@@ -11,7 +11,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/gwatts/gin-adapter v1.0.0
-	github.com/justinas/nosurf v1.1.1
+	github.com/justinas/nosurf v1.2.0
 	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/rs/xid v1.5.0
 	github.com/russross/blackfriday/v2 v2.1.0
